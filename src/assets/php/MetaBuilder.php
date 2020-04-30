@@ -4,36 +4,35 @@ class MetaBuilder
 {
 
     private $metaTags = [
-        /*
         "meta" => [
-            [
-                "name" => "",
-                "content" => "" 
-            ]
+            // [
+            //     "name" => "",
+            //     "content" => "" 
+            // ]
         ],
         "base" => [
-            [
-                "href" => "",
-                "target" => ""
-            ]
-
+            // [
+            //     "href" => "",
+            //     "target" => ""
+            // ]
         ],
         "link" => [
-            [
-                "rel" => [],
-                "type" => [],
-                "href" => [],
-                "sizes" => []
-            ]
+            // [
+            //     "rel" => "",
+            //     "type" => "",
+            //     "href" => "",
+            //     "crossorigin" => "",
+            //     "sizes" => ""
+            // ]
         ],
         "title" => "",
         "script" => [
-            [
-                "code" => "",
-                "async" => false
-            ]
+            // [
+            //     "path" => "",
+            //     "async" => false
+            // ]
         ]
-        */];
+];
 
     private $linkTag = [
         "rel" => [
@@ -77,24 +76,13 @@ class MetaBuilder
      * @param array $metaArr ArrayObject of all meta tags
      * @return void
      */
-    function _construct(array $metaArr)
+    function __construct(array $metaArr)
     {
         foreach ($metaArr as $key => $metaData) {
-            if ($this->metaTags[$key]) {
+            if (isset($this->metaTags[$key])) {
                 $this->metaTags[$key] = $metaData;
             }
         }
-    }
-
-    /**
-     * Pushes new metatags in the private MetaTag Array
-     * @access public
-     * @param array ...$meta exploded input array
-     * @return void
-     */
-    function addTag(...$meta)
-    {
-        array_push($this->metaTags, $meta);
     }
 
     /**
@@ -110,17 +98,16 @@ class MetaBuilder
      */
     function setTags()
     {
-        print('<head>');
-        print('<meta charset="UTF-8">');
-        print('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
+        print('<head>' . PHP_EOL);
+        print('<meta charset="UTF-8">' . PHP_EOL);
+        print('<meta name="viewport" content="width=device-width, initial-scale=1.0">' . PHP_EOL);
 
-        
         foreach ($this->metaTags as $key => $tags) {
             switch ($key) {
                 case "meta":
                     foreach ($tags as $skey => $tag) {
                         if (!isset($tag['href']) && !isset($tag['content'])) break;
-                        print $this->buildMeta($tag['href'], $tag['content']);
+                        print $this->buildMeta($tag['name'], $tag['content']);
                     }
                     break;
                 case "base":
@@ -136,18 +123,18 @@ class MetaBuilder
                     }
                     break;
                 case "title":
-                    print $this->buildTitle($tags['title']);
+                    print $this->buildTitle($tags);
                     break;
                 case "script":
                     foreach ($tags as $skey => $tag) {
-                        print $this->buildScript($tag['code'], isset($tag['async']));
+                        print $this->buildScript($tag['path'], isset($tag['async']));
                     }
                     break;
                 default:
                     break;
             }
         }
-        print('</head>');
+        print('</head>' . PHP_EOL);
     }
 
     /**
@@ -160,7 +147,7 @@ class MetaBuilder
     private function buildMeta(string $href, string $content)
     {
         if(!strlen($href) || !strlen($content)) return false;
-        return "<meta href='{$href}' content='{$content}'>";
+        return "<meta href='{$href}' content='{$content}'>" . PHP_EOL;
     }
 
     /**
@@ -173,7 +160,7 @@ class MetaBuilder
     private function buildBase(string $href, string $target)
     {
         if(!strlen($href) || !strlen($target)) return false;
-        return "<base href='{$href}' target='{$target}'>";
+        return "<base href='{$href}' target='{$target}'>" . PHP_EOL;
     }
 
     /**
@@ -211,7 +198,7 @@ class MetaBuilder
         
         $ret .= "></link>";
 
-        return $ret;
+        return $ret . PHP_EOL;
     }
 
     /**
@@ -223,7 +210,7 @@ class MetaBuilder
     private function buildTitle(string $title)
     {
         if (!strlen($title)) return false;
-        return "<title>{$title}</title>";
+        return "<title>{$title}</title>" . PHP_EOL;
     }
 
     /**
@@ -236,7 +223,7 @@ class MetaBuilder
     private function buildScript(string $src, bool $async = false)
     {
         if (!strlen($src)) return false;
-        return "<script src='{$src}' async ='{$async}'></script>";
+        return "<script src='{$src}' async='{$async}'></script>" . PHP_EOL;
     }
 
     /**
