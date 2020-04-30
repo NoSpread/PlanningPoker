@@ -1,9 +1,9 @@
 <?php
 
-class MetaBuilder
+class HeadBuilder
 {
 
-    private $metaTags = [
+    private $headTags = [
         "meta" => [
             // [
             //     "name" => "",
@@ -28,13 +28,13 @@ class MetaBuilder
         "title" => "",
         "script" => [
             // [
-            //     "path" => "",
+            //     "src" => "",
             //     "async" => false
             // ]
         ]
-];
+    ];
 
-    private $linkTag = [
+    private $globalTags = [
         "rel" => [
             "alternate",
             "author",
@@ -67,20 +67,30 @@ class MetaBuilder
             "multipart",
             "text",
             "video"
+        ],
+        "target" => [
+            "_blank",
+            "_self",
+            "_parent",
+            "_top"
+        ],
+        "async" => [
+            "true",
+            "false"
         ]
     ];
 
     /**
-     * Constructor of the MetaBuilder Class
+     * Constructor of the HeadBuilder Class
      * @access public
-     * @param array $metaArr ArrayObject of all meta tags
+     * @param array $headArr ArrayObject of all head tags
      * @return void
      */
-    function __construct(array $metaArr)
+    function __construct(array $headArr)
     {
-        foreach ($metaArr as $key => $metaData) {
-            if (isset($this->metaTags[$key])) {
-                $this->metaTags[$key] = $metaData;
+        foreach ($headArr as $key => $headData) {
+            if (isset($this->headTags[$key])) {
+                $this->headTags[$key] = $headData;
             }
         }
     }
@@ -88,11 +98,11 @@ class MetaBuilder
     /**
      * Sets the tags on the webpage
      * @access public 
-     * @uses MetaBuilder::buildMeta
-     * @uses MetaBuilder::buildBase
-     * @uses MetaBuilder::buildLink
-     * @uses MetaBuilder::buildTitle
-     * @uses MetaBuilder::buildScript
+     * @uses HeadBuilder::buildMeta
+     * @uses HeadBuilder::buildBase
+     * @uses HeadBuilder::buildLink
+     * @uses HeadBuilder::buildTitle
+     * @uses HeadBuilder::buildScript
      * @param void
      * @return void
      */
@@ -102,7 +112,7 @@ class MetaBuilder
         print('<meta charset="UTF-8">' . PHP_EOL);
         print('<meta name="viewport" content="width=device-width, initial-scale=1.0">' . PHP_EOL);
 
-        foreach ($this->metaTags as $key => $tags) {
+        foreach ($this->headTags as $key => $tags) {
             switch ($key) {
                 case "meta":
                     foreach ($tags as $skey => $tag) {
@@ -127,7 +137,7 @@ class MetaBuilder
                     break;
                 case "script":
                     foreach ($tags as $skey => $tag) {
-                        print $this->buildScript($tag['path'], isset($tag['async']));
+                        print $this->buildScript($tag['src'], $this->setOrNull($tag['type']), $this->setOrNull($tag['integrity']), $this->setOrNull($tag['crossorigin']), $this->setOrNull($tag['async']));
                     }
                     break;
                 default:
@@ -159,7 +169,7 @@ class MetaBuilder
      */
     private function buildBase(string $href, string $target)
     {
-        if(!strlen($href) || !strlen($target)) return false;
+        if(!strlen($href) || !strlen($target) ||!in_array($target, $this->globalTags['target'])) return false;
         return "<base href='{$href}' target='{$target}'>" . PHP_EOL;
     }
 
@@ -170,30 +180,32 @@ class MetaBuilder
      * @param string $href
      * @param string $crossorigin optional
      * @param string $type optional
-     * @param string size optional
+     * @param string $sizes optional
      * @return string|bool builded link tag
      */
     private function buildLink(string $rel, string $href, string $crossorigin = "", string $type = "", string $sizes = "")
     {
         $ret = "<link";
 
-        if (!strlen($rel) || !in_array($rel, $this->linkTag['rel'])) return false;
+        if (!strlen($rel) || !in_array($rel, $this->globalTags['rel'])) return false;
         $ret .= " rel='{$rel}'";
 
         if (!strlen($href)/* || !filter_var($href, FILTER_VALIDATE_URL)*/) return false;
         $ret .= " href='{$href}'";
 
-        if (strlen($crossorigin) > 0 && in_array($crossorigin, $this->linkTag['crossorigin'])) {
-            $crossorigin ? $ret .= " crossorigin='{$crossorigin}'" : "";
+        if (strlen($crossorigin) > 0 && in_array($crossorigin, $this->globalTags['crossorigin'])) {
+            $ret .= " crossorigin='{$crossorigin}'";
         }
         
         if (strlen($type) > 0) {
             preg_match('/^(\w+)\/(.+)$/i', $type, $matches);
-            if (in_array($matches[1], $this->linkTag['type'])) $type ? $ret .= " type='{$type}'" : "";
+            if (in_array($matches[1], $this->globalTags['type'])) {
+                $ret .= " type='{$type}'";
+            }
         }
 
         if (strlen($sizes) > 0 && preg_match('/^(?!\D)\d+x\d+(?!.)/i', $sizes)) {
-            $sizes ? $ret .= " sizes='{$sizes}'" : "";
+            $ret .= " sizes='{$sizes}'";
         }
         
         $ret .= "></link>";
@@ -217,13 +229,40 @@ class MetaBuilder
      * Build the ScriptString with href and target
      * @access private 
      * @param string $src
-     * @param bool $async optional
+     * @param string $type optional
+     * @param string integrity optional
+     * @param string crossorigin optional
+     * @param string $async optional
      * @return string|bool builded script tag
      */
-    private function buildScript(string $src, bool $async = false)
+    private function buildScript(string $src, string $type = "", string $integrity = "", string $crossorigin = "", string $async = "")
     {
+        $ret = "<script";
         if (!strlen($src)) return false;
-        return "<script src='{$src}' async='{$async}'></script>" . PHP_EOL;
+        $ret .= " src='{$src}'";
+
+        if (strlen($type) > 0) {
+            preg_match('/^(\w+)\/(.+)$/i', $type, $matches);
+            if (in_array($matches[1], $this->globalTags['type'])) {
+                $ret .= " type='{$type}'";
+            }
+        }
+
+        if (strlen($integrity) > 0) {
+            $ret .= " integrity='{$integrity}'";
+        }
+
+        if (strlen($crossorigin) > 0 && in_array($crossorigin, $this->globalTags['crossorigin'])) {
+            $ret .= " crossorigin='{$crossorigin}'";
+        }
+
+        if (strlen($async) > 0 && in_array($async, $this->globalTags['async'])) {
+            $ret .= " async='{$async}'";
+        }
+
+        $ret .= "></script>";
+
+        return $ret . PHP_EOL;
     }
 
     /**
@@ -232,8 +271,8 @@ class MetaBuilder
      * @access private
      * @param mixed $var
      */
-    private function setOrNull($var) {
-        return $var ? $var : "";
+    private function setOrNull(&$var)
+    {
+        return isset($var) ? $var : "";
     }
-
 }
