@@ -1,3 +1,3 @@
-[submodule "PHP-MySQLi-Database-Class"]
-	path = PHP-MySQLi-Database-Class
+[submodule "submodules/PHP-MySQLi-Database-Class"]
+	path = submodules/PHP-MySQLi-Database-Class
 	url = https://github.com/ThingEngineer/PHP-MySQLi-Database-Class.git
