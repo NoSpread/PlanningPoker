@@ -18,12 +18,15 @@ class Account
     private $last_login;
     private $created_at;
     
-    public $error_msg;
+    private $gameInvites = [];
+    
 
     public function __get($property) 
     {
         if (property_exists($this, $property)) {
             return $this->$property;
+        } else {
+            throw new Exception("Property $property is not an element of account");
         }
     }
     
@@ -37,11 +40,11 @@ class Account
                 case 'email':
                     $this->property = $this->db->escape(htmlspecialchars($value));
                     break;
+                default:
+                    $this->$property = $value;
             }
-            if ($property == 'username' || $property == 'email') {
-               
-            }
-            $this->$property = $value;
+        } else {
+            throw new Exception("Property $property is not an element of account");
         }
         return $this;
     }
@@ -51,13 +54,12 @@ class Account
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
-        return $this;
     }
 
     public function create(string $username = $this->username, string $email = $this->email, string $password = $this->password) 
     {
-        $this->error_msg = "Missing username, email or password.";
-        if (!isset($username) && !empty($username) && !isset($email) && !empty($email) && !isset($password) && !empty($password)) return false;
+        
+        if (!isset($username) && !empty($username) && !isset($email) && !empty($email) && !isset($password) && !empty($password)) throw new Exception("Missing username, email or password");
 
         $this->username = $username;
         $this->email = $email;
@@ -66,8 +68,7 @@ class Account
         $this->register_ip = Utils::get_ip();
         $this->created_at = $this->db->now();
         
-        $this->error_msg = "Account already exists.";
-        if (!$this->check()) return false;
+        if (!$this->check()) throw new Exception("Account with the same name or Email already exists");
 
         $data = [
             "username" => $this->username,
@@ -78,22 +79,20 @@ class Account
             "created_at" => $this->created_at
         ];
 
-        $this->db->insert($this->table, $data);
+        $this->id = $this->db->insert($this->table, $data);
         
         if ($this->db->getLastErrno() === 0) {
-            $this->error_msg = "";
             return $this;
         } else {
-            $this->error_msg = "Insert in DB failed.";
-            return false;
+            throw new Exception("Insert new account in database failed");
         }
     }
 
     public function check(string $username = $this->username, string $email = $this->email) 
     {
         $this->db
-                ->where('username', $this->username)
-                ->orWhere('email', $this->email);
+                ->where('username', $username)
+                ->orWhere('email', $email);
 
         if ($this->db->has($this->table)) {
             // accounts already exists
@@ -107,81 +106,67 @@ class Account
     public function login(string $userOrEmail, string $password = $this->password) 
     {
         $userOrEmail = $this->db->escape(htmlspecialchars($userOrEmail));
-        $this->password = $password;
-        $this->db
-                ->where('username', $userOrEmail)
-                ->orWhere('email', $userOrEmail);
-        $dbUser = $this->db->getOne($this->table);
+        
+        $this->getAccountByName($userOrEmail);
+        
 
-        if ($this->db->count > 0 && password_verify($this->password, $dbUser['password'])) {
+        if ($this->db->count > 0 && $this->checkPassword($password)) {
             // verified login
             $updateData = [
                 "last_login" => $this->db->now(),
                 "last_ip" => Utils::get_ip()
             ];
 
-            $this->db->update($this->table, $updateData);
+            $this->db
+                    ->where('id', $this->id)
+                    ->update($this->table, $updateData);
             
-            $dbUser = $this->db
-                            ->where('username', $dbUser['username'])
-                            ->where('email', $dbUser['email'])
-                            ->getOne($this->table);
-
-            foreach ($dbUser as $column => $data) {
-                $this->__set($column, $data);
-            }
-
-            unset($this->password);
+            $this->getAccountByID($this->id);
             $_SESSION['USER'] = $this;
+
         } else {
             // wrong credentials
             session_destroy();
-            return false;
+            throw new Exception("Wrong credentials");
         }
     }
 
-    /**
-     * @todo change $changed to var, only 1 change at the time accepted!
-     */
-    public function update(array $changed,  string $password, string $username = $this->username, string $email = $this->email) 
+    public function logout() {
+        session_destroy();
+    }
+
+    public function update(array $changed,  string $password, string $userID = $this->id) 
     {
-        $this->username = $username;
-        $this->email = $email;
+        if (!isset($id)) return false;
 
         foreach($changed as $column => $data) {
             $changed[$column] = $this->db->escape(htmlspecialchars($data));
         }
-
-        if (!isset($changed['username'])) $changed['username'] = $this->username;
-        if (!isset($changed['email'])) $changed['email'] = $this->email;
         
-        $dbUser = $this->getAccountByName();
-        if (password_verify($password, $dbUser['password'])) {
-            $this->db->update($this->table, $changed);
+        $user = $this->getAccountByID($userID);
+        if (password_verify($password, $user->password)) {
+            $this->db
+                    ->where('id', $userID)
+                    ->update($this->table, $changed);
         }
 
         if($this->db->getLastErrno()) {
-            return true;
+            return $this;
         } else {
-            $this->error_msg = "Failed updating";
-            return false;
+            throw new Exception("User entry update failed");
         }
     }
 
-    public function delete(string $password) 
+    public function delete(string $password, int $userID = $this->id) 
     {
-        $dbUser = $this->db
-                        ->where('username', $this->username)
-                        ->where('email', $this->email)
-                        ->getOne($this->table);
+        $this->getAccountByID($userID);
         
-        if (password_verify($password, $dbUser['password'])) {
+        if ($this->checkPassword($password)) {
             $this->db
-                    ->where('username', $this->username)
-                    ->where('email', $this->email)
+                    ->where('id', $this->id)
                     ->delete($this->table);
         } else {
-            $this->error_msg = "Wrong password. Did not delete account";
+            throw new Exception("Password wrong");
         }
     }
 
@@ -191,8 +176,14 @@ class Account
         $dbUser = $this->db
                         ->where('username', $userOrEmail)
                         ->orWhere('email', $userOrEmail);
-        if ($this->db->count > 0) return $dbUser;
-        return false;
+
+        if ($this->db->count > 0) {
+            foreach($dbUser as $column => $data) {
+                $this->$column = $data;
+            }
+            return $this;
+        }
+        throw new Exception("Name or Email not found in database");
     }
 
     public function getAccountByID(int $userID = $this->id) 
@@ -201,8 +192,20 @@ class Account
         $dbUser = $this->db
                         ->where('id', $userID)
                         ->getOne($this->table);
-        if ($this->db->count > 0) return $dbUser;
-        return false;
+
+        if ($this->db->count > 0) {
+            foreach($dbUser as $column => $data) {
+                $this->$column = $data;
+            }
+            return $this;
+        }
+        throw new Exception("ID not in database");
+    }
+
+    public function checkPassword(string $password, string $dbpassword = $this->password) 
+    {
+        if (!isset($this->password)) throw new Exception("Account not loaded in class");
+        return password_verify($password, $dbpassword);
     }
 
 }
