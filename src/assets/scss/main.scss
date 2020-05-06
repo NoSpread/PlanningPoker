@@ -1,3 +1,65 @@
-.lol {
-	background-color: white;
+@import './.ignore/_variables.scss';
+@import './.ignore/_mixins.scss';
+
+.main-box {
+    width: 100%;
+    color: $pColor;
+    & .main-box-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+        padding: 10px;
+        border-top: 1px solid $pBorder;
+        border-right: 1px solid $pBorder;
+        border-left: 1px solid $pBorder;
+        background: $sBG;
+        height: 45px;
+        & .main-box-header-content {
+            font-size: 1.5rem;
+            position: absolute;
+            z-index: 200;
+        }
+    }
+
+    & .main-box-content {
+        background: $pBG;
+        padding: 10px;
+        border-left: 1px solid $pBorder;
+        border-right: 1px solid $pBorder;
+        height: 200px;
+        max-height: 300px;
+    }
+
+    & .main-box-footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        background: $sBG;
+        position: relative;
+        border-bottom: 1px solid $pBorder;
+        border-right: 1px solid $pBorder;
+        border-left: 1px solid $pBorder;
+        height: 45px;
+        & .main-box-footer-content {
+        }
+        & .main-box-expand {
+            position: absolute;
+            right: 10px;
+            & i {
+                display: inline-block !important;
+            }
+        }
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &.main-box-static {
+        & .main-box-footer {
+            cursor: auto !important;
+        }
+    }
 }

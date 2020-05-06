@@ -1,0 +1,29 @@
+@mixin _flex {
+    display: flex !important;
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+}
+
+@mixin _justify-content($align) {
+    justify-content: $align !important;
+    -ms-flex-pack: $align !important;
+    -webkit-box-pack: $align !important;
+}
+
+@mixin _align-items($align) {
+    align-items: $align !important;
+    -ms-flex-align: $align !important;
+    -webkit-box-align: $align !important;
+}
+
+@mixin _transition($time) {
+    transition: ease $time;
+    -ms-transition: ease $time;
+    -webkit-transition: ease $time;
+    -moz-transition: ease $time;
+    -o-transition: ease $time;
+}
+
+@function _px-to-rem($px) {
+    @return $px * 0.0625rem !important;
+}

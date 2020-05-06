@@ -1,0 +1,7 @@
+@import '../.ignore/_variables.scss';
+@import '../.ignore/_mixins.scss';
+
+._bg-dark {
+    background: $sBG;
+    border-bottom: 1px solid $pBorder;
+}
