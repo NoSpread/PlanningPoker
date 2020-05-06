@@ -86,7 +86,7 @@ class HeadBuilder
      * @param array $headArr ArrayObject of all head tags
      * @return void
      */
-    function __construct(array $headArr)
+    public function __construct(array $headArr)
     {
         foreach ($headArr as $key => $headData) {
             if (isset($this->headTags[$key])) {
@@ -106,7 +106,7 @@ class HeadBuilder
      * @param void
      * @return void
      */
-    function setTags()
+    public function setTags()
     {
         print('<head>' . PHP_EOL);
         print('<meta charset="UTF-8">' . PHP_EOL);
@@ -128,7 +128,7 @@ class HeadBuilder
                     break;
                 case "link":
                     foreach ($tags as $skey => $tag) {
-                        if(!isset($tag['rel']) && !isset($tag['href'])) break;
+                        if (!isset($tag['rel']) && !isset($tag['href'])) break;
                         print $this->buildLink($tag['rel'], $tag['href'], $this->setOrNull($tag['crossorigin']), $this->setOrNull($tag['type']), $this->setOrNull($tag['sizes']));
                     }
                     break;
@@ -152,11 +152,11 @@ class HeadBuilder
      * @access private 
      * @param string $href href
      * @param string $content parameter
-     * @return string|bool builded meta tag
+     * @return string builded meta tag
      */
     private function buildMeta(string $href, string $content)
     {
-        if(!strlen($href) || !strlen($content)) return false;
+        if (!strlen($href) || !strlen($content)) return false;
         return "<meta href='{$href}' content='{$content}'>" . PHP_EOL;
     }
 
@@ -169,7 +169,7 @@ class HeadBuilder
      */
     private function buildBase(string $href, string $target)
     {
-        if(!strlen($href) || !strlen($target) ||!in_array($target, $this->globalTags['target'])) return false;
+        if (!strlen($href) || !strlen($target) || !in_array($target, $this->globalTags['target'])) return false;
         return "<base href='{$href}' target='{$target}'>" . PHP_EOL;
     }
 
@@ -196,7 +196,7 @@ class HeadBuilder
         if (strlen($crossorigin) > 0 && in_array($crossorigin, $this->globalTags['crossorigin'])) {
             $ret .= " crossorigin='{$crossorigin}'";
         }
-        
+
         if (strlen($type) > 0) {
             preg_match('/^(\w+)\/(.+)$/i', $type, $matches);
             if (in_array($matches[1], $this->globalTags['type'])) {
@@ -207,7 +207,7 @@ class HeadBuilder
         if (strlen($sizes) > 0 && preg_match('/^(?!\D)\d+x\d+(?!.)/i', $sizes)) {
             $ret .= " sizes='{$sizes}'";
         }
-        
+
         $ret .= "></link>";
 
         return $ret . PHP_EOL;
