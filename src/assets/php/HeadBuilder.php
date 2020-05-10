@@ -156,7 +156,7 @@ class HeadBuilder
      */
     private function buildMeta(string $href, string $content)
     {
-        if (!strlen($href) || !strlen($content)) return false;
+        if (empty($href) || empty($content)) return false;
         return "<meta href='{$href}' content='{$content}'>" . PHP_EOL;
     }
 
@@ -169,7 +169,7 @@ class HeadBuilder
      */
     private function buildBase(string $href, string $target)
     {
-        if (!strlen($href) || !strlen($target) || !in_array($target, $this->globalTags['target'])) return false;
+        if (empty($href) || empty($target) || !in_array($target, $this->globalTags['target'])) return false;
         return "<base href='{$href}' target='{$target}'>" . PHP_EOL;
     }
 
@@ -187,24 +187,24 @@ class HeadBuilder
     {
         $ret = "<link";
 
-        if (!strlen($rel) || !in_array($rel, $this->globalTags['rel'])) return false;
+        if (empty($rel) || !in_array($rel, $this->globalTags['rel'])) return false;
         $ret .= " rel='{$rel}'";
 
-        if (!strlen($href)/* || !filter_var($href, FILTER_VALIDATE_URL)*/) return false;
+        if (empty($href)/* || !filter_var($href, FILTER_VALIDATE_URL)*/) return false;
         $ret .= " href='{$href}'";
 
-        if (strlen($crossorigin) > 0 && in_array($crossorigin, $this->globalTags['crossorigin'])) {
+        if (!empty($crossorigin) && in_array($crossorigin, $this->globalTags['crossorigin'])) {
             $ret .= " crossorigin='{$crossorigin}'";
         }
 
-        if (strlen($type) > 0) {
+        if (!empty($type)) {
             preg_match('/^(\w+)\/(.+)$/i', $type, $matches);
             if (in_array($matches[1], $this->globalTags['type'])) {
                 $ret .= " type='{$type}'";
             }
         }
 
-        if (strlen($sizes) > 0 && preg_match('/^(?!\D)\d+x\d+(?!.)/i', $sizes)) {
+        if (!empty($sizes) && preg_match('/^(?!\D)\d+x\d+(?!.)/i', $sizes)) {
             $ret .= " sizes='{$sizes}'";
         }
 
@@ -221,7 +221,7 @@ class HeadBuilder
      */
     private function buildTitle(string $title)
     {
-        if (!strlen($title)) return false;
+        if (empty($title)) return false;
         return "<title>{$title}</title>" . PHP_EOL;
     }
 
@@ -238,25 +238,25 @@ class HeadBuilder
     private function buildScript(string $src, string $type = "", string $integrity = "", string $crossorigin = "", string $async = "")
     {
         $ret = "<script";
-        if (!strlen($src)) return false;
+        if (empty($src)) return false;
         $ret .= " src='{$src}'";
 
-        if (strlen($type) > 0) {
+        if (!empty($type)) {
             preg_match('/^(\w+)\/(.+)$/i', $type, $matches);
             if (in_array($matches[1], $this->globalTags['type'])) {
                 $ret .= " type='{$type}'";
             }
         }
 
-        if (strlen($integrity) > 0) {
+        if (!empty($integrity)) {
             $ret .= " integrity='{$integrity}'";
         }
 
-        if (strlen($crossorigin) > 0 && in_array($crossorigin, $this->globalTags['crossorigin'])) {
+        if (!empty($crossorigin) && in_array($crossorigin, $this->globalTags['crossorigin'])) {
             $ret .= " crossorigin='{$crossorigin}'";
         }
 
-        if (strlen($async) > 0 && in_array($async, $this->globalTags['async'])) {
+        if (!empty($async) && in_array($async, $this->globalTags['async'])) {
             $ret .= " async='{$async}'";
         }
 

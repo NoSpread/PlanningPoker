@@ -69,6 +69,9 @@ class Game
         }
     }
 
+    /**
+     * @todo needs new fix --> database relations added
+     */
     public function invite(Account $player, int $gameID = null)
     {
         $this->setDefault(["id"], $gameID);
@@ -83,6 +86,7 @@ class Game
     
             $this->db
                     ->where("id", $this->id)
+                    ->where("end_date", NULL)
                     ->update($this->table, $gameData);
     
             if ($this->db->getLastErrno()) throw new Exception("Failed to invite player");
@@ -101,6 +105,7 @@ class Game
 
         $this->db
                 ->where("id", $this->id)
+                ->where("end_date", NULL)
                 ->update($this->table, $gameData);
         
         if ($this->db->getLastErrno()) throw new Exception("Failed to invite player");
@@ -137,6 +142,11 @@ class Game
             }
         }
         return $this;
+    }
+
+    public function pickCard(Account $account, int $cardID) 
+    {
+
     }
 
     private function setDefault(array $type, ...$vars) 

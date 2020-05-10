@@ -6,7 +6,7 @@ $db = new MysqliDb([
     'host' => 'localhost',
     'username' => 'root', 
     'password' => '',
-    'db'=> 'webeng',
+    'db'=> 'planningpoker',
     'port' => 3306,
     'charset' => 'utf8'
 ]);
