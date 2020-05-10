@@ -20,7 +20,17 @@ $headTags = [
 		],
 		[
 			"rel" => "stylesheet",
-			"href" => "../assets/dist/main.min.css",
+			"href" => "../assets/dist/main-box.min.css",
+			"type" => "text/css"
+		],
+		[
+			"rel" => "stylesheet",
+			"href" => "../assets/dist/form.min.css",
+			"type" => "text/css"
+		],
+		[
+			"rel" => "stylesheet",
+			"href" => "../assets/dist/checkbox.min.css",
 			"type" => "text/css"
 		],
 		[
@@ -62,39 +72,73 @@ $head = new HeadBuilder($headTags);
 	<?php
 	require_once "../layouts/nav.php";
 	?>
-	<div class="container px-4 py-4">
-		<div id="login-box" class="main-box main-box-open">
+	<div class="container view d-flex justify-content-center align-items-center px-4 py-4">
+		<div id="login-box" class="main-box main-box-open main-box-static">
 			<div class="main-box-header">
 				<div class="main-box-header-content">Login</div>
 			</div>
 			<div class="main-box-content">
-				<div><i class="mdi mdi-account"></i> Content</div>
+				<form class="_form" action="submit">
+					<div class="_form-field _input-single">
+						<input class="_input" type="text" placeholder="Username/E-Mail"></input>
+						<div class="_input-icon _icon-left">
+							<i class="mdi mdi-24px mdi-account"></i>
+						</div>
+					</div>
+					<div class="_form-field _input-single">
+						<input class="_input" type="password" placeholder="Passwort"></input>
+						<div class="_input-icon _icon-left">
+							<i class="mdi mdi-24px mdi-lock"></i>
+						</div>
+						<div class="_input-icon _icon-right">
+							<i id="clearPassword" class="mdi mdi-24px mdi-eye"></i>
+						</div>
+					</div>
+					<div id="saveSession" class="_checkbox">
+						<div class="_box"></div>
+						<div class="_label">Remember Me</div>
+					</div>
+					<button class="btn btn-primary w-25 mt-5">submit</button>
+				</form>
 			</div>
 			<div class="main-box-footer">
-				<div class="main-box-footer-content">Footer</div>
+				<div class="main-box-footer-content">
+					<a href="#">Don't have an account? Register here!</a>
+				</div>
 				<div class="main-box-expand">
 					<i class="mdi mdi-36px"></i>
 				</div>
 			</div>
 		</div>
-		<div id="what-box" class="main-box main-box-open">
-			<div class="main-box-header">
-				<div class="main-box-header-content">Register</div>
-			</div>
-			<div class="main-box-content">
-				<div><i class="mdi mdi-account"></i> Content</div>
-			</div>
-			<div class="main-box-footer">
-				<div class="main-box-footer-content">Footer</div>
-				<div class="main-box-expand">
-					<i class="mdi mdi-36px"></i>
-				</div>
-			</div>
-		</div>
-	</div>
 	</div>
 
 	<script src="../assets/js/mainBox.js"></script>
+	<script>
+		//$('._input').after('<div class="_input-after _input-error"><i class="mdi mdi-24px mdi-alert-octagon-outline"></i>Username already taken</div>');
+		$('i#clearPassword').click(function() {
+			if ($(this).hasClass('mdi-eye')) {
+				$(this).removeClass('mdi-eye').addClass('mdi-eye-off');
+				$(this).parents('._form-field').children('._input').attr('type', "text");
+			} else {
+				$(this).removeClass('mdi-eye-off').addClass('mdi-eye');
+				$(this).parents('._form-field').children('._input').attr('type', 'password');
+			}
+		});
+		$('#saveSession ._box').click(function() {
+			if ($(this).hasClass('_checkbox-active')) {
+				$(this).removeClass('_checkbox-active');
+			} else {
+				$(this).addClass('_checkbox-active');
+			}
+		});
+	</script>
 </body>
 
 </html>
+
+<!--
+	info: mdi-information-outline
+	error: mdi-alert-octagon-outline
+	warning: mdi-alert-outline
+	success: mdi-check-outline
+ -->

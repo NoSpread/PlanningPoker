@@ -1,9 +1,10 @@
-@import './.ignore/_variables.scss';
-@import './.ignore/_mixins.scss';
+@import '../.ignore/_variables.scss';
+@import '../.ignore/_mixins.scss';
 
 .main-box {
     width: 100%;
     color: $pColor;
+    padding: 10px;
     & .main-box-header {
         display: flex;
         flex-direction: row;
@@ -27,8 +28,6 @@
         padding: 10px;
         border-left: 1px solid $pBorder;
         border-right: 1px solid $pBorder;
-        height: 200px;
-        max-height: 300px;
     }
 
     & .main-box-footer {

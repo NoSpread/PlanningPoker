@@ -11,7 +11,6 @@ let mainBoxes = [
 const collectBoxes = () => {
     const boxes = $('.main-box');
     for (let i = 0; i < boxes.length; i++) {
-        console.log(boxes[i]);
         mainBoxes[i] = {
             index: i,
             id: $(boxes[i]).attr('id'),
@@ -60,6 +59,7 @@ const transformBoxes = (boxes) => {
         if (x.state) {
             $(`#${x.id} .main-box-content`).slideDown();
             $(`#${x.id} .main-box-footer`).animate({ bottom: '-=44px' }, 500);
+            $(`#${x.id}.main-box`).animate({ 'margin-bottom': '+=44px' }, 500);
             $(`#${x.id} .main-box-footer .main-box-footer-content`).fadeIn(500);
             $(`#${x.id} .main-box-footer .main-box-expand i`).css({
                 transform: 'rotate(360deg)'
@@ -67,6 +67,7 @@ const transformBoxes = (boxes) => {
         } else {
             $(`#${x.id} .main-box-content`).slideUp();
             $(`#${x.id} .main-box-footer`).animate({ bottom: '+=44px' }, 500);
+            $(`#${x.id}.main-box`).animate({ 'margin-bottom': '-=44px' }, 500);
             $(`#${x.id} .main-box-footer .main-box-footer-content`).fadeOut(
                 500
             );

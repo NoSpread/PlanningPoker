@@ -27,3 +27,11 @@
 @function _px-to-rem($px) {
     @return $px * 0.0625rem !important;
 }
+
+@function _calculate-view-height() {
+    $height: 100%;
+    @each $key, $size in $viewHeights {
+        $height: calc(#{$height} - #{$size});
+    }
+    @return $height;
+}
