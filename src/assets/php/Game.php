@@ -7,6 +7,8 @@ class Game
 {
     private $db;
     private $table = "games";
+    private $inv_table = "invites";
+    private $played_cards_table = "played_cards";
     private $id;
     private $topic;
     private $players = [];
@@ -46,20 +48,33 @@ class Game
         $this->__set("players", $players);
     }
 
-    public function start(string $topic, array $players, int $gameID = null) 
+    public function start(string $topic, Account $startUser, array $players) 
     {
-        $this->setDefault(["topic", "players", "id"], $topic, $players, $gameID);
+        $this->setDefault(["topic", "players"], $topic, $players);
 
         $gameData = [
             "topic" => $this->topic,
             "start_date" => $this->db->now()
         ];
-
-        foreach($this->players as $index => $player) {
-            $gameData["player_" . $index] = $player;
-        }
-
         $this->id = $this->db->insert($this->table, $gameData);
+
+        $inviteData = [
+            [
+                "Inviter_UserID" => $startUser->id,
+                "Invited_GameID" => $this->id,
+                "Invited_UserID" => $startUser->id,
+                "accepted" => 1
+            ]
+        ];
+
+        foreach($players as $player) {
+            array_push($inviteData, [
+                "Inviter_UserID" => $startUser->id,
+                "Invited_GameID" => $this->id,
+                "Invited_UserID" => $player->id
+            ]);
+        }
+        $this->db->insertMulti($this->inv_table, $inviteData);
 
         if ($this->db->getLastErrno() === 0) {
             $this->load();
@@ -69,25 +84,18 @@ class Game
         }
     }
 
-    /**
-     * @todo needs new fix --> database relations added
-     */
-    public function invite(Account $player, int $gameID = null)
+    public function invite(Account $inviter, Account $invited_player, int $gameID = null)
     {
         $this->setDefault(["id"], $gameID);
         
         if (sizeof($this->players) < 4) {
-            array_push($this->players, $player->id);
-            
-            $gameData = [];
-            foreach($this->players as $index => $player) {
-                $gameData["player_" . $index] = $player;
-            }
-    
-            $this->db
-                    ->where("id", $this->id)
-                    ->where("end_date", NULL)
-                    ->update($this->table, $gameData);
+            $inviteData = [
+                "Inviter_UserID" => $inviter->id,
+                "Invited_GameID" => $gameID,
+                "Invited_UserID" => $invited_player->id
+            ];
+
+            $this->db->insert($this->inv_table, $inviteData);
     
             if ($this->db->getLastErrno()) throw new Exception("Failed to invite player");
             return true;
@@ -105,10 +113,10 @@ class Game
 
         $this->db
                 ->where("id", $this->id)
-                ->where("end_date", NULL)
+                ->where("end_date", NULL, "IS")
                 ->update($this->table, $gameData);
-        
-        if ($this->db->getLastErrno()) throw new Exception("Failed to invite player");
+
+        if ($this->db->getLastErrno()) throw new Exception("Failed to stop game");
         return true;
 
     }
@@ -132,21 +140,54 @@ class Game
                         ->where('id', $this->id)
                         ->getOne($this->table);
         
-        $this->players = [];
         foreach($dbGame as $column => $data) {
             if ($data == null) continue;
-            if (substr($column, 0, 6) === "player") {
-                array_push($this->players, $data);
-            } else {
-                $this->__set($column, $data);
-            }
+            $this->__set($column, $data);
         }
+        if ($this->db->getLastErrno()) throw new Exception("Failed to load game infos");
+        $this->players = [];
+        $dbInvites = $this->db
+                            ->where("Invited_GameID", $this->id)
+                            ->where("accepted", 1)
+                            ->get($this->inv_table);
+        foreach($dbInvites as $invite) {
+            $player = new Account();
+            $player->getAccountByID($invite["Invited_UserID"]);
+            array_push($this->players, $player);
+        }
+        if ($this->db->getLastErrno()) throw new Exception("Failed to load player infos");
         return $this;
     }
 
-    public function pickCard(Account $account, int $cardID) 
-    {
 
+    /**
+     * @todo test
+     */
+    public function pickCard(Account $account, int $cardID, int $gameID = null) 
+    {
+        $this->setDefault(["id"], $gameID);
+        
+        $playedCardsData = [
+            "GameID" => $this->id,
+            "UserID" => $account->id,
+            "CardID" => $cardID
+        ];
+        $this->db->insert($this->played_cards_table, $playedCardsData);
+        if ($this->db->getLastErrno()) throw new Exception("Failed to pick card");
+    }
+
+    
+    /**
+     * @todo test
+     */
+    public function playedCards($gameID = null) {
+        $this->setDefault(["id"], $gameID);
+
+        $playedCards = $this->db
+                                ->where("GameID", $this->id)
+                                ->get($this->played_cards_table);
+        if ($this->db->getLastErrno()) throw new Exception("Failed to find played cards");
+        return $playedCards;        
     }
 
     private function setDefault(array $type, ...$vars) 

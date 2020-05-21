@@ -9,17 +9,12 @@ session_start();
 if (!isset($_SESSION['USER'])){
     $acc = new Account("admin@mail.de", "admin", "TollesTESTpw1448434545");
 
-/* 
-    $acc->create();
-
-    $acc1 = new Account("support@mail.de", "supporter", "TollesTESTpw1448434545");
-    $acc1->create();
-
-    $acc2 = new Account("tadi@mail.de", "Tatjana", "TollesTESTpw1448434545");
-    $acc2->create();
-
-    $acc3 = new Account("lucas@mail.de", "Lucas", "TollesTESTpw1448434545");
-    $acc3->create(); */
+    $acc1 = new Account();
+    $acc1->getAccountByID(2);
+    $acc2 = new Account();
+    $acc2->getAccountByID(3);
+    $acc3 = new Account();
+    $acc3->getAccountByID(4);
 
     $acc->login("TollesTESTpw1448434545");
 }
@@ -29,8 +24,6 @@ print "HELLO $acc->username \n";
 print "CREATE GAME";
 
 $game = new Game();
-$game->start("TEST TOPIC", [1, 2, 3, 4]);
+$game->start("TEST TOPIC", $acc, [$acc1, $acc2, $acc3]);
 
 $game->stop();
-
-$game->delete();
