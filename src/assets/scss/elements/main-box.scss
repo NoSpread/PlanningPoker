@@ -5,6 +5,7 @@
     width: 100%;
     color: $pColor;
     padding: 10px;
+
     & .main-box-header {
         display: flex;
         flex-direction: row;
@@ -16,6 +17,7 @@
         border-left: 1px solid $pBorder;
         background: $sBG;
         height: 45px;
+
         & .main-box-header-content {
             font-size: 1.5rem;
             position: absolute;
@@ -42,15 +44,19 @@
         border-right: 1px solid $pBorder;
         border-left: 1px solid $pBorder;
         height: 45px;
+
         & .main-box-footer-content {
         }
+
         & .main-box-expand {
             position: absolute;
             right: 10px;
+
             & i {
                 display: inline-block !important;
             }
         }
+
         &:hover {
             cursor: pointer;
         }

@@ -5,3 +5,99 @@
     background: $sBG;
     border-bottom: 1px solid $pBorder;
 }
+
+._nav-item-active {
+    & a.nav-link {
+        color: $pColor !important;
+        &:after {
+            transition: width 0.3s ease;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            content: '';
+            width: 100%;
+            height: 2px;
+            background-color: $sColor;
+        }
+    }
+}
+
+._navbar-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+@media (min-width: 0px) and (max-width: 991.98px) {
+    ._navbar-right {
+        justify-content: flex-start;
+    }
+}
+
+._navbar-icons {
+    padding: 0 10px 0 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+._navbar-icon {
+    width: 36px;
+    height: 36px;
+
+    & a {
+        display: flex;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+    }
+}
+
+._navbar-profile {
+    padding-left: 15px;
+    border-left: 1px solid $sBorder;
+
+    & ._navbar-profile-toggler {
+        position: relative;
+        transition: all 0.3s ease;
+        color: darken($pColor, 30%);
+
+        &:hover {
+            color: $pColor;
+        }
+
+        & i.mdi {
+            position: absolute;
+            top: -9px;
+            width: 10px !important;
+        }
+    }
+
+    & ._navbar-profile-img {
+        border-radius: 50%;
+    }
+
+    & ._navbar-profile-dropdown-menu {
+        border-radius: 0;
+        background-color: $sBG;
+        border: 1px solid $pBorder;
+
+        & ._navbar-profile-dropdown-item {
+            color: darken($pColor, 30%);
+
+            &:hover {
+                background-color: transparent;
+                cursor: pointer;
+                & a {
+                    color: $pColor;
+                    text-decoration: none;
+
+                    &:after {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

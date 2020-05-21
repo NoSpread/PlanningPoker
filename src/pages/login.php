@@ -10,7 +10,7 @@ $headTags = [
 		],
 		[
 			"rel" => "stylesheet",
-			"href" => "../assets/css/bootstrap/bootstrap.min.css",
+			"href" => "../assets/libraries/bootstrap/bootstrap.min.css",
 			"type" => "text/css"
 		],
 		[
@@ -46,16 +46,13 @@ $headTags = [
 	],
 	"script" => [
 		[
-			"src" => "../assets/js/jquery/jquery-3.5.0.min.js",
+			"src" => "../assets/libraries/jquery/jquery-3.5.1.min.js",
 		],
 		[
-			"src" => "../assets/js/popper.js/popper.js-2.4.0.min.js"
+			"src" => "../assets/libraries/bootstrap/bootstrap.bundle.min.js"
 		],
 		[
-			"src" => "../assets/js/bootstrap/bootstrap.min.js"
-		],
-		[
-			"src" => "../assets/js/lodash/lodash.min.js"
+			"src" => "../assets/libraries/lodash/lodash.min.js"
 		]
 	],
 	"title" => "login"
@@ -112,7 +109,7 @@ $head = new HeadBuilder($headTags);
 		</div>
 	</div>
 
-	<script src="../assets/js/mainBox.js"></script>
+	<script src="../assets/js/PlanningPoker.js"></script>
 	<script>
 		//$('._input').after('<div class="_input-after _input-error"><i class="mdi mdi-24px mdi-alert-octagon-outline"></i>Username already taken</div>');
 		$('i#clearPassword').click(function() {
@@ -122,13 +119,6 @@ $head = new HeadBuilder($headTags);
 			} else {
 				$(this).removeClass('mdi-eye-off').addClass('mdi-eye');
 				$(this).parents('._form-field').children('._input').attr('type', 'password');
-			}
-		});
-		$('#saveSession ._box').click(function() {
-			if ($(this).hasClass('_checkbox-active')) {
-				$(this).removeClass('_checkbox-active');
-			} else {
-				$(this).addClass('_checkbox-active');
 			}
 		});
 	</script>

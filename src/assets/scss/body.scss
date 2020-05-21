@@ -17,7 +17,8 @@ html {
 
 a {
     position: relative;
-    color: $pColor;
+    transition: all 0.3s ease;
+    color: darken($pColor, 30%);
     padding-bottom: 2px;
 
     &:hover {
@@ -33,10 +34,22 @@ a {
         transition: width 0.3s ease;
         position: absolute;
         bottom: 0;
-        left: 1px;
+        left: 0;
         content: '';
         width: 0;
         height: 2px;
         background-color: $sColor;
+    }
+}
+
+.a-none {
+    &:hover {
+        &:after {
+            display: none;
+        }
+    }
+
+    &:after {
+        display: none;
     }
 }
