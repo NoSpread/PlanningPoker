@@ -15,22 +15,7 @@ $headTags = [
 		],
 		[
 			"rel" => "stylesheet",
-			"href" => "../assets/dist/body.min.css",
-			"type" => "text/css"
-		],
-		[
-			"rel" => "stylesheet",
-			"href" => "../assets/dist/main-box.min.css",
-			"type" => "text/css"
-		],
-		[
-			"rel" => "stylesheet",
-			"href" => "../assets/dist/form.min.css",
-			"type" => "text/css"
-		],
-		[
-			"rel" => "stylesheet",
-			"href" => "../assets/dist/checkbox.min.css",
+			"href" => "../assets/dist/planningpoker.min.css",
 			"type" => "text/css"
 		],
 		[
@@ -40,7 +25,7 @@ $headTags = [
 		],
 		[
 			"rel" => "stylesheet",
-			"href" => "../assets/dist/materialdesignicons.helper.css",
+			"href" => "../assets/css/materialdesignicons.helper.css",
 			"type" => "text/css"
 		]
 	],
@@ -75,32 +60,38 @@ $head = new HeadBuilder($headTags);
 				<div class="main-box-header-content">Login</div>
 			</div>
 			<div class="main-box-content">
-				<form class="_form" action="submit">
-					<div class="_form-field _input-single">
-						<input class="_input" type="text" placeholder="Username/E-Mail"></input>
-						<div class="_input-icon _icon-left">
-							<i class="mdi mdi-24px mdi-account"></i>
+				<form class="_form" action="../assets/php/login.php" method="GET">
+					<div class="_form-field">
+						<div class="_input-single">
+							<input class="_input" type="text" placeholder="Username/E-Mail" name="name"></input>
+							<div class="_input-icon _icon-left">
+								<i class="mdi mdi-24px mdi-account-outline"></i>
+							</div>
 						</div>
 					</div>
-					<div class="_form-field _input-single">
-						<input class="_input" type="password" placeholder="Passwort"></input>
-						<div class="_input-icon _icon-left">
-							<i class="mdi mdi-24px mdi-lock"></i>
-						</div>
-						<div class="_input-icon _icon-right">
-							<i id="clearPassword" class="mdi mdi-24px mdi-eye"></i>
+					<div class="_form-field">
+						<div class="_input-single">
+							<input class="_input" type="password" placeholder="Password" name="password"></input>
+							<div class="_input-icon _icon-left">
+								<i class="mdi mdi-24px mdi-lock-outline"></i>
+							</div>
+							<div class="_input-icon _icon-right">
+								<i id="clearPassword" class="mdi mdi-24px mdi-eye-outline"></i>
+							</div>
 						</div>
 					</div>
 					<div id="saveSession" class="_checkbox">
 						<div class="_box"></div>
 						<div class="_label">Remember Me</div>
 					</div>
-					<button class="btn btn-primary w-25 mt-5">submit</button>
+					<div>
+						<input type="submit" value="submit" class="btn _button-default btn-lg-block" style="width: 200px;">
+					</div>
 				</form>
 			</div>
 			<div class="main-box-footer">
 				<div class="main-box-footer-content">
-					<a href="#">Don't have an account? Register here!</a>
+					<a href="./register.php">Don't have an account? Register here!</a>
 				</div>
 				<div class="main-box-expand">
 					<i class="mdi mdi-36px"></i>
@@ -113,12 +104,12 @@ $head = new HeadBuilder($headTags);
 	<script>
 		//$('._input').after('<div class="_input-after _input-error"><i class="mdi mdi-24px mdi-alert-octagon-outline"></i>Username already taken</div>');
 		$('i#clearPassword').click(function() {
-			if ($(this).hasClass('mdi-eye')) {
-				$(this).removeClass('mdi-eye').addClass('mdi-eye-off');
-				$(this).parents('._form-field').children('._input').attr('type', "text");
+			if ($(this).hasClass('mdi-eye-outline')) {
+				$(this).removeClass('mdi-eye-outline').addClass('mdi-eye-off-outline');
+				$(this).parents('._input-single').children('._input').attr('type', "text");
 			} else {
-				$(this).removeClass('mdi-eye-off').addClass('mdi-eye');
-				$(this).parents('._form-field').children('._input').attr('type', 'password');
+				$(this).removeClass('mdi-eye-off-outline').addClass('mdi-eye-outline');
+				$(this).parents('._input-single').children('._input').attr('type', 'password');
 			}
 		});
 	</script>

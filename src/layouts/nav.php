@@ -87,10 +87,10 @@ class NavBuilder
 
 	private function buildBrand(string $title, string $href = "", string $src = "", string $alt = "", int $width = 0, int $height = 0)
 	{
-		$ret = "<a class='navbar-brand' href='" . !empty($href) ? $href : "#" . "'>";
+		$ret = "<a class='navbar-brand' href='" . (!empty($href) ? $href : "#") . "'>";
 
 		if (!empty($src) && $width > 0 && $height > 0) {
-			$ret .= PHP_EOL . "<img src='{$src}' alt='" . !empty($alt) ? $alt : "image" . "' width='{$width}' height='{$height}' class='d-inline-block align-top' />" . PHP_EOL;
+			$ret .= PHP_EOL . "<img src='{$src}' alt='" . (!empty($alt) ? $alt : "image") . "' width='{$width}' height='{$height}' class='d-inline-block align-top' />" . PHP_EOL;
 		}
 
 		if (empty($title)) return false;
@@ -106,8 +106,8 @@ class NavBuilder
 		if (empty($title)) return false;
 		if ($active && $disabled) return false;
 
-		$ret = "<li class='nav-item " . $active ? "_nav-item-active" : "" . "'>" . PHP_EOL;
-		$ret .= "<a class='nav-link " . $disabled ? "disabled" : "" . "' href='" . empty($href) ? "#" : $href . "'>{$title}</a>" . PHP_EOL;
+		$ret = "<li class='nav-item " . ($active ? "_nav-item-active" : "") . "'>" . PHP_EOL;
+		$ret .= "<a class='nav-link " . ($disabled ? "disabled" : "") . "' href='" . (empty($href) ? "#" : $href) . "'>{$title}</a>" . PHP_EOL;
 		$ret .= "</li>";
 
 		return $ret . PHP_EOL;
@@ -118,7 +118,7 @@ class NavBuilder
 		if (empty($class) || !sizeof($tooltip)) return false;
 
 		$ret = "<div class='_navbar-icon'>" . PHP_EOL;
-		$ret .= "<a href='" . empty($href) ? "#" : $href . "' data-toggle='tooltip' data-placement='bottom' title='" . $tooltip['title'] . "'>" . PHP_EOL;
+		$ret .= "<a href='" . (empty($href) ? "#" : $href) . "' data-toggle='tooltip' data-placement='bottom' title='" . $tooltip['title'] . "'>" . PHP_EOL;
 
 		$ret .= "<i class='{$class}'></i>" . PHP_EOL;
 
@@ -226,6 +226,7 @@ class NavBuilder
 						</a>
 					</div>
 				</div>
+				<!--
 				<div class="dropdown _navbar-profile">
 					<a class="a-none _navbar-profile-toggler" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<img src="https://i.imgur.com/6vja1Al.png" width="30" height="30" alt="zz" class="_navbar-profile-img" />
@@ -244,14 +245,20 @@ class NavBuilder
 						</div>
 					</div>
 				</div>
+				-->
+				<div class="_navbar-profile">
+					<a class="a-none" href="../pages/login.php">
+						<button type="button" class="btn _button-default">
+							Login here
+						</button>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
 </nav>
 
 <script>
-	let navCSS = "<link rel='stylesheet' href='../assets/dist/nav.min.css' type='text/css'>";
-	$("head").append(navCSS);
 	$(function() {
 		$('[data-toggle="tooltip"]').tooltip()
 	})

@@ -1,6 +1,3 @@
-@import '../.ignore/_variables.scss';
-@import '../.ignore/_mixins.scss';
-
 ._form {
     display: flex;
     flex-direction: column;
@@ -84,5 +81,29 @@
                 cursor: pointer;
             }
         }
+    }
+}
+
+@media (max-width: 575.98px) {
+    ._form-xs-group-col {
+        flex-direction: column !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    ._form-sm-group-col {
+        flex-direction: column !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    ._form-md-group-col {
+        flex-direction: column !important;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    ._form-lg-group-col {
+        flex-direction: column !important;
     }
 }
