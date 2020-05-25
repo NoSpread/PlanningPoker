@@ -159,10 +159,6 @@ class Game
         return $this;
     }
 
-
-    /**
-     * @todo test
-     */
     public function pickCard(Account $account, int $cardID, int $gameID = null) 
     {
         $this->setDefault(["id"], $gameID);
@@ -176,10 +172,6 @@ class Game
         if ($this->db->getLastErrno()) throw new Exception("Failed to pick card");
     }
 
-    
-    /**
-     * @todo test
-     */
     public function playedCards($gameID = null) {
         $this->setDefault(["id"], $gameID);
 
@@ -187,7 +179,30 @@ class Game
                                 ->where("GameID", $this->id)
                                 ->get($this->played_cards_table);
         if ($this->db->getLastErrno()) throw new Exception("Failed to find played cards");
-        return $playedCards;        
+
+        $cards = [
+            "game" => $this->load($playedCards[0]["GameID"]),
+            "user" => []
+        ];
+        $p_cards = [];
+        $sum = 0;
+        foreach($playedCards as $entry) {
+            $acc = new Account;
+            array_push($cards["user"], [
+                "account" => $acc->getAccountByID($entry["UserID"]),
+                "card" => $entry["CardID"]
+            ]);
+            array_push($p_cards, $entry["CardID"]);
+            $sum += $entry["CardID"];
+        }
+
+        $cards["stats"] = [
+            "mean" => $sum / sizeof($cards["user"]),
+            "max" => max($p_cards),
+            "min" => min($p_cards)
+        ];
+
+        return $cards;        
     }
 
     private function setDefault(array $type, ...$vars) 

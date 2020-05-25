@@ -107,12 +107,16 @@ class Account
         }
     }
 
-    public function login(string $password, string $userOrEmail = "") 
+    public function login(string $password, string $userOrEmail = "", bool $remember_me = false) 
     {
         $this->setDefault(["username", "password"], $userOrEmail, $password);
         $this->getAccountByName($this->username);
 
         if ($this->checkPassword($password)) {
+
+            if ($remember_me) {
+                // do remember me
+            }
             // verified login
             $updateData = [
                 "last_login" => $this->db->now(),
@@ -183,7 +187,7 @@ class Account
 
         $dbUser = $this->db
                         ->where('username', $this->username)
-                        ->orWhere('email', $this->email)
+                        ->orWhere('email', $this->username)
                         ->getOne($this->table);
 
         if ($this->db->count > 0) {
