@@ -9,6 +9,15 @@
         background-color: $sColor;
         color: $pColor;
     }
+
+    &:disabled {
+        border-bottom: 2px solid $error;
+        color: darken($pColor, 30%);
+        &:hover {
+            background-color: transparent;
+            cursor: default;
+        }
+    }
 }
 
 @media (max-width: 575.98px) {

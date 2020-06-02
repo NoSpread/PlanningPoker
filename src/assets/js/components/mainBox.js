@@ -1,4 +1,4 @@
-let mainBoxes = [
+var mainBoxes = [
     /*
 	{
 		index: Number,
@@ -8,7 +8,7 @@ let mainBoxes = [
 	*/
 ];
 
-const collectBoxes = () => {
+function collectBoxes() {
     const boxes = $('.main-box');
     for (let i = 0; i < boxes.length; i++) {
         mainBoxes[i] = {
@@ -32,17 +32,17 @@ const collectBoxes = () => {
         });
     }
     return true;
-};
+}
 
-const filterBoxes = (id) => {
+function filterBoxes(id) {
     return new Promise((resolve, reject) => {
         const boxes = mainBoxes.filter((x) => $.inArray(x.id, id) != -1);
         if (!boxes.length) reject(`No box found!`);
         else resolve(boxes);
     });
-};
+}
 
-const setState = async (id, state) => {
+async function setState(id, state) {
     const boxes = await filterBoxes(id);
     boxes.forEach((x) => {
         state
@@ -52,9 +52,9 @@ const setState = async (id, state) => {
         transformBoxes([mainBoxes[x.index]]);
     });
     return true;
-};
+}
 
-const transformBoxes = (boxes) => {
+function transformBoxes(boxes) {
     boxes.forEach((x) => {
         if (x.state) {
             $(`#${x.id} .main-box-content`).slideDown();
@@ -77,8 +77,6 @@ const transformBoxes = (boxes) => {
         }
     });
     return true;
-};
+}
 
-(() => {
-    collectBoxes();
-})();
+collectBoxes();

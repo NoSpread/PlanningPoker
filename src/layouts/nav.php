@@ -4,12 +4,12 @@ class NavBuilder
 	private $navArr = [
 		"container" => true,
 		"brand" => [
-			"title" => "",
-			"href" => "",
-			"src" => "",
-			"alt" => "",
-			"width" => 0,
-			"height" => 0
+			// "title" => "",
+			// "href" => "",
+			// "src" => "",
+			// "alt" => "",
+			// "width" => 0,
+			// "height" => 0
 		],
 		"routes" => [
 			// [
@@ -29,23 +29,23 @@ class NavBuilder
 			// ]
 		],
 		"profile" => [
-			"image" => [
-				"src" => "",
-				"alt" => ""
-			],
-			"name" => "",
-			"items" => [
-				[
-					"title" => "",
-					"href" => "",
-					"class" => ""
-				]
-			]
+			// "name" => "",
+			// "items" => [
+			//     [
+			//          "title" => "",
+			//          "href" => ""
+			//     ]
+			// ]
 		]
 	];
 
-	public function __construct()
+	public function __construct(array $navArr)
 	{
+		foreach ($navArr as $key => $navData) {
+			if (isset($this->navArr[$key])) {
+				$this->navArr[$key] = $navData;
+			}
+		}
 	}
 
 	public function setNav()
@@ -70,11 +70,11 @@ class NavBuilder
 				case "icons":
 					print($this->printNavbarRightWrap('begin'));
 					foreach ($tags as $skey => $tag) {
-						print($this->buildIcons($tag['class'], $tag['href'], $tag['tooltip']));
+						print($this->buildIcons($tag['class'], $tag['tooltip'], $tag['href']));
 					}
 					break;
 				case "profile":
-					print($this->buildProfile());
+					print($this->buildProfile($tags['name'], $tags['items']));
 					print($this->printNavbarRightWrap('end'));
 					print($this->printNavCollapseWrap('end'));
 					break;
@@ -128,13 +128,47 @@ class NavBuilder
 		return $ret . PHP_EOL;
 	}
 
-	private function buildProfile()
+	private function buildProfile(string $name, array $items)
 	{
-		if (!isset($_SESSION['USER'])) return $this->printLoginButton();
+		if (empty($name)) return $this->printLoginButton();
+
+		$ret = "<div class='dropdown _navbar-profile'>" . PHP_EOL;
+		$ret .= "<a class='a-none _navbar-profile-toggler' href='#' role='button' id='dropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>" . PHP_EOL;
+		$ret .= "<i class='mdi mdi-24px mdi-account-circle-outline'></i>" . PHP_EOL;
+		$ret .= "<span class='pl-4'>{$name}</span>" . PHP_EOL;
+		$ret .= "<i class='mdi mdi-24px mdi-menu-down'></i>" . PHP_EOL;
+		$ret .= "</a>" . PHP_EOL;
+
+		$ret .= "<div class='dropdown-menu _navbar-profile-dropdown-menu' aria-labelledby='dropdownMenuLink'>" . PHP_EOL;
+		$ret .= "" . PHP_EOL;
+		foreach ($items as $skey => $tag) {
+			$ret .= "<div class='dropdown-item _navbar-profile-dropdown-item'>" . PHP_EOL;
+			$ret .= "<a href='{$tag['href']}'>{$tag['title']}</a>" . PHP_EOL;
+			$ret .= "</div>" . PHP_EOL;
+		}
+		$ret .= "<div class='_navbar-profile-dropdown-divider'></div>" . PHP_EOL;
+		$ret .= "<div class='dropdown-item _navbar-profile-dropdown-item'>" . PHP_EOL;
+		$ret .= "<a href='./logout.php'>Logout</a>" . PHP_EOL;
+		$ret .= "</div>" . PHP_EOL;
+
+		$ret .= "</div>" . PHP_EOL;
+
+		$ret .= "</div>";
+
+		return $ret . PHP_EOL;
 	}
 
 	private function printLoginButton()
 	{
+		$ret = "<div class='_navbar-profile'>" . PHP_EOL;
+		$ret .= "<a class='a-none' href='../pages/login.php'>" . PHP_EOL;
+		$ret .= "<button type='button' class='btn _button-default'>" . PHP_EOL;
+		$ret .= "Login here" . PHP_EOL;
+		$ret .= "</button>" . PHP_EOL;
+		$ret .= "</a>" . PHP_EOL;
+		$ret .= "</div>";
+
+		return $ret . PHP_EOL;
 	}
 
 	private function printToggleButton()
@@ -142,7 +176,7 @@ class NavBuilder
 		$ret = "<button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>" . PHP_EOL;
 		$ret .= "<span class='navbar-toggler-icon'></span>" . PHP_EOL . "</button>";
 
-		return $ret;
+		return $ret . PHP_EOL;
 	}
 
 	private function printNavCollapseWrap(string $position)
@@ -192,6 +226,7 @@ class NavBuilder
 }
 ?>
 
+<!--
 <nav class="navbar navbar-expand-lg navbar-dark _bg-dark">
 	<div class="container">
 		<a class="navbar-brand" href="#">Navbar</a>
@@ -226,26 +261,24 @@ class NavBuilder
 						</a>
 					</div>
 				</div>
-				<!--
 				<div class="dropdown _navbar-profile">
 					<a class="a-none _navbar-profile-toggler" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<img src="https://i.imgur.com/6vja1Al.png" width="30" height="30" alt="zz" class="_navbar-profile-img" />
-						User
+						<i class="mdi mdi-24px mdi-account-circle-outline"></i>
+						<span class="pl-4">User</span>
 						<i class="mdi mdi-24px mdi-menu-down"></i>
 					</a>
 					<div class="dropdown-menu _navbar-profile-dropdown-menu" aria-labelledby="dropdownMenuLink">
-						<div class="dropdown-item _navbar-profile-dropdown-item a-none">
+						<div class="dropdown-item _navbar-profile-dropdown-item">
 							<a href="#">Action</a>
 						</div>
-						<div class="dropdown-item _navbar-profile-dropdown-item a-none">
+						<div class="dropdown-item _navbar-profile-dropdown-item">
 							<a href="#">Another action</a>
 						</div>
-						<div class="dropdown-item _navbar-profile-dropdown-item a-none">
+						<div class="dropdown-item _navbar-profile-dropdown-item">
 							<a href="#">Something else here</a>
 						</div>
 					</div>
 				</div>
-				-->
 				<div class="_navbar-profile">
 					<a class="a-none" href="../pages/login.php">
 						<button type="button" class="btn _button-default">
@@ -257,9 +290,4 @@ class NavBuilder
 		</div>
 	</div>
 </nav>
-
-<script>
-	$(function() {
-		$('[data-toggle="tooltip"]').tooltip()
-	})
-</script>
+-->
