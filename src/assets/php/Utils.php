@@ -2,23 +2,83 @@
 
 class Utils
 {
-    public static function get_ip() {
-        $ip_address = '';
-        if (isset($_SERVER['HTTP_CLIENT_IP']))
-            $ip_address = $_SERVER['HTTP_CLIENT_IP'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-            $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED']))
-            $ip_address = $_SERVER['HTTP_X_FORWARDED'];
-        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-            $ip_address = $_SERVER['HTTP_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_FORWARDED']))
-            $ip_address = $_SERVER['HTTP_FORWARDED'];
-        else if(isset($_SERVER['REMOTE_ADDR']))
-            $ip_address = $_SERVER['REMOTE_ADDR'];
-        else
+
+    /**
+     * get ip address
+     * @access public
+     * @return string $ip_address
+     */
+    public static function get_ip()
+    {
+        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        }
+
+        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
+            if (array_key_exists($key, $_SERVER)) {
+                foreach (explode(',', $_SERVER[$key]) as $ip) {
+                    $ip = trim($ip);
+
+                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                        $ip_address = $ip;
+                    }
+                }
+            }
+        }
+        if (!isset($ip_address))
             $ip_address = '';
-  
+
         return $ip_address;
+    }
+
+    /**
+     * generates a random String
+     * @access public
+     * @param integer $length of string
+     * @return string $randomString
+     */
+    public static function generateRandomString($length = 30)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    /**
+     * redirect to transferred url
+     * @access public
+     * @param mixed $url
+     * @return void
+     */
+    public static function redirect($url)
+    {
+        header("Location:" . $url);
+        exit;
+    }
+
+     /**
+     * Get current URL info
+     * @access public
+     * @param string path|parse
+     * @return object
+     */
+    public static function getCurrentUrl($type = "path")
+    {
+        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+        switch($type) {
+            case "path":
+                return pathinfo($actual_link);
+                break;
+            case "parse":
+                return parse_url($actual_link);
+            break;
+            default:
+                return null;
+        }
     }
 }

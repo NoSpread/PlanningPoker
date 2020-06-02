@@ -1,7 +1,7 @@
 <?php
 
-require_once("Database.php");
-require_once("Utils.php");
+require_once "Database.php";
+require_once "Utils.php";
 
 class Game
 {
@@ -16,6 +16,13 @@ class Game
     private $end_date;
 
 
+    /**
+     * returns the requested property
+     * @access public
+     * @param mixed $property
+     * @throws Exception $property is not an element of game
+     * @return Game $this->{$property}
+     */
     public function __get($property) 
     {
         if (property_exists($this, $property)) {
@@ -25,10 +32,18 @@ class Game
         }
     }
     
+    /**
+     * changes the value of a property
+     * @access public
+     * @param  mixed $property
+     * @param  mixed $value
+     * @throws Exception $property is not an element of game
+     * @return Game $this
+     */
     public function __set($property, $value) 
     {
         if (property_exists($this, $property)) {
-            if ($property == 'topic') {
+            if ($property == 'topic') { // game-topic = goal whose effort is to be estimated with the game
                $this->{$property} = $this->db->escape(htmlspecialchars($value));
             } else {
                 $this->{$property} = $value;
@@ -41,6 +56,13 @@ class Game
     }
 
     
+    /**
+     * constructor of the game class
+     * @access public
+     * @param string $topic goal whose effort is to be estimated
+     * @param array $players
+     * @return void
+     */
     public function __construct(string $topic = "", array $players = [])
     {
         $this->db = MysqliDb::getInstance();
@@ -48,6 +70,15 @@ class Game
         $this->__set("players", $players);
     }
 
+    /**
+     * start game
+     * @access public
+     * @param string $topic goal whose effort is to be estimated
+     * @param Account $startUser
+     * @param array $players
+     * @throws Exception Failed to start game
+     * @return Game $this
+     */
     public function start(string $topic, Account $startUser, array $players) 
     {
         $this->setDefault(["topic", "players"], $topic, $players);
@@ -84,6 +115,15 @@ class Game
         }
     }
 
+    /**
+     * invite another player
+     * @access public
+     * @param Account $inviter
+     * @param Account $invited_player
+     * @param integer $gameID
+     * @throws Exception Failed to invite player
+     * @return bool invitation successful/failed
+     */
     public function invite(Account $inviter, Account $invited_player, int $gameID = null)
     {
         $this->setDefault(["id"], $gameID);
@@ -103,6 +143,13 @@ class Game
         return false;
     }
 
+    /**
+     * ending a game
+     * @access public
+     * @param integer $gameID
+     * @throws Exception Failed to stop game
+     * @return bool ending successful
+     */
     public function stop(int $gameID = null)
     {
         $this->setDefault(["id"], $gameID);
@@ -121,6 +168,13 @@ class Game
 
     }
 
+    /**
+     * delete game
+     * @access public
+     * @param integer $gameID
+     * @throws Exception Failed to delete game
+     * @return bool deletion successful
+     */
     public function delete(int $gameID = null)
     {
         $this->setDefault(["id"], $gameID);
@@ -132,6 +186,14 @@ class Game
         return true;
     }
 
+    /**
+     * load game and player information from database
+     * @access public
+     * @param integer $gameID
+     * @throws Exception Failed to load game information
+     * @throws Exception Failed to load player information
+     * @return Game $this
+     */
     public function load(int $gameID = null)
     {
         $this->setDefault(["id"], $gameID);
@@ -144,7 +206,7 @@ class Game
             if ($data == null) continue;
             $this->__set($column, $data);
         }
-        if ($this->db->getLastErrno()) throw new Exception("Failed to load game infos");
+        if ($this->db->getLastErrno()) throw new Exception("Failed to load game information");
         $this->players = [];
         $dbInvites = $this->db
                             ->where("Invited_GameID", $this->id)
@@ -155,10 +217,19 @@ class Game
             $player->getAccountByID($invite["Invited_UserID"]);
             array_push($this->players, $player);
         }
-        if ($this->db->getLastErrno()) throw new Exception("Failed to load player infos");
+        if ($this->db->getLastErrno()) throw new Exception("Failed to load player information");
         return $this;
     }
 
+    /**
+     * choosing card
+     * @access public
+     * @param Account $account
+     * @param integer $cardID
+     * @param integer $gameID
+     * @throws Exception Failed to pick card
+     * @return void
+     */
     public function pickCard(Account $account, int $cardID, int $gameID = null) 
     {
         $this->setDefault(["id"], $gameID);
@@ -172,6 +243,13 @@ class Game
         if ($this->db->getLastErrno()) throw new Exception("Failed to pick card");
     }
 
+    /**
+     * already played cards
+     * @access public
+     * @param integer $gameID
+     * @throws Exception Failed to find played cards
+     * @return array $cards
+     */
     public function playedCards($gameID = null) {
         $this->setDefault(["id"], $gameID);
 
@@ -205,6 +283,13 @@ class Game
         return $cards;        
     }
 
+    /**
+     * sets default values
+     * @access private
+     * @param array $type
+     * @param mixed $vars
+     * @return Game $this
+     */
     private function setDefault(array $type, ...$vars) 
     {
         for ($i = 0; $i < sizeof($type); $i++) {
@@ -212,6 +297,21 @@ class Game
                 $this->__set($type[$i], $vars[$i]);
             }
         }
+        return $this;
+    }
+
+    private function join(Account $account) 
+    {
+        $updateData = [
+            "accepted" => 1
+        ];
+        $this->db
+                ->where("Invited_UserID", $account->id)
+                ->update($this->inv_table, $updateData);
+                
+        array_push($account->games, $this);
+        array_push($this->players, $account);
+
         return $this;
     }
 

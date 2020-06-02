@@ -1,7 +1,7 @@
 <?php
 
-require_once("../../../submodules/PHP-MySQLi-Database-Class/MysqliDb.php");
-
+require_once(dirname(__DIR__, 3). "\submodules\PHP-MySQLi-Database-Class\MysqliDb.php");
+// database access parameters
 $db = new MysqliDb([
     'host' => 'localhost',
     'username' => 'root', 

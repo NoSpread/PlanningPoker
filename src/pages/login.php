@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+include_once "../assets/php/auth.php";
 include_once "../assets/php/HeadBuilder.php";
 
 $headTags = [
@@ -44,6 +46,40 @@ $headTags = [
 ];
 $head = new HeadBuilder($headTags);
 
+include_once "../layouts/nav.php";
+$navArr = [
+	"container" => true,
+	"brand" => [
+		"title" => "Nav",
+		"href" => "#",
+		"src" => "",
+		"alt" => "",
+		"width" => 0,
+		"height" => 0
+	],
+	"routes" => [],
+	"icons" => [
+		[
+			"href" => "",
+			"class" => "mdi mdi-24px mdi-facebook",
+			"tooltip" => [
+				"title" => "is this facebook"
+			]
+		],
+		[
+			"href" => "",
+			"class" => "mdi mdi-24px mdi-google",
+			"tooltip" => [
+				"title" => "is this google"
+			]
+		]
+	],
+	"profile" => [
+		"name" => "",
+		"items" => []
+	]
+];
+$nav = new NavBuilder($navArr);
 ?>
 
 <!DOCTYPE html>
@@ -51,9 +87,7 @@ $head = new HeadBuilder($headTags);
 <?php $head->setTags() ?>
 
 <body>
-	<?php
-	require_once "../layouts/nav.php";
-	?>
+	<?php $nav->setNav() ?>
 	<div class="container view d-flex justify-content-center align-items-center px-4 py-4">
 		<div id="login-box" class="main-box main-box-open main-box-static">
 			<div class="main-box-header">
@@ -63,7 +97,7 @@ $head = new HeadBuilder($headTags);
 				<form class="_form" action="../assets/php/login.php" method="GET">
 					<div class="_form-field">
 						<div class="_input-single">
-							<input class="_input" type="text" placeholder="Username/E-Mail" name="name"></input>
+							<input id="name" class="_input" type="text" placeholder="Username/E-Mail" name="name"></input>
 							<div class="_input-icon _icon-left">
 								<i class="mdi mdi-24px mdi-account-outline"></i>
 							</div>
@@ -71,12 +105,12 @@ $head = new HeadBuilder($headTags);
 					</div>
 					<div class="_form-field">
 						<div class="_input-single">
-							<input class="_input" type="password" placeholder="Password" name="password"></input>
+							<input id="password" class="_input" type="password" placeholder="Password" name="password"></input>
 							<div class="_input-icon _icon-left">
 								<i class="mdi mdi-24px mdi-lock-outline"></i>
 							</div>
 							<div class="_input-icon _icon-right">
-								<i id="clearPassword" class="mdi mdi-24px mdi-eye-outline"></i>
+								<i id="revealPassword" class="mdi mdi-24px mdi-eye-outline"></i>
 							</div>
 						</div>
 					</div>
@@ -85,7 +119,7 @@ $head = new HeadBuilder($headTags);
 						<div class="_label">Remember Me</div>
 					</div>
 					<div>
-						<input type="submit" value="submit" class="btn _button-default btn-lg-block" style="width: 200px;">
+						<input id="submit" type="submit" value="submit" class="btn _button-default btn-lg-block" style="width: 200px;" disabled>
 					</div>
 				</form>
 			</div>
@@ -100,17 +134,49 @@ $head = new HeadBuilder($headTags);
 		</div>
 	</div>
 
-	<script src="../assets/js/PlanningPoker.js"></script>
+	<?php include_once "../assets/php/planningpoker.js.php"; ?>
 	<script>
-		//$('._input').after('<div class="_input-after _input-error"><i class="mdi mdi-24px mdi-alert-octagon-outline"></i>Username already taken</div>');
-		$('i#clearPassword').click(function() {
-			if ($(this).hasClass('mdi-eye-outline')) {
-				$(this).removeClass('mdi-eye-outline').addClass('mdi-eye-off-outline');
-				$(this).parents('._input-single').children('._input').attr('type', "text");
+		function revealPassword(id) {
+			if ($(`#${id}`).hasClass('mdi-eye-outline')) {
+				$(`#${id}`).removeClass('mdi-eye-outline').addClass('mdi-eye-off-outline');
+				$(`#${id}`).parents('._input-single').children('._input').attr('type', "text");
 			} else {
-				$(this).removeClass('mdi-eye-off-outline').addClass('mdi-eye-outline');
-				$(this).parents('._input-single').children('._input').attr('type', 'password');
+				$(`#${id}`).removeClass('mdi-eye-off-outline').addClass('mdi-eye-outline');
+				$(`#${id}`).parents('._input-single').children('._input').attr('type', 'password');
 			}
+		}
+
+		$('i#revealPassword').click(function() {
+			revealPassword(this.id);
+		});
+	</script>
+	<script>
+		var inputChecksums = {
+			checksums: {
+				'name': false,
+				'password': false
+			},
+			get get() {
+				return this.checksums;
+			},
+			set set(args) {
+				this.checksums[args.id] = args.bool;
+				handleSubmit('submit', this.checksums);
+			}
+		};
+
+		$('#name').keyup(function() {
+			inputChecksums.set = {
+				id: this.id,
+				bool: $(this).val().length > 0 ? true : false
+			};
+		});
+
+		$('#password').keyup(function() {
+			inputChecksums.set = {
+				id: this.id,
+				bool: $(this).val().length > 0 ? true : false
+			};
 		});
 	</script>
 </body>
