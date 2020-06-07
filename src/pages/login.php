@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-include_once "../assets/php/auth.php";
-include_once "../assets/php/HeadBuilder.php";
+include_once "../assets/php/logic/auth.php";
+include_once "../assets/php/classes/HeadBuilder.php";
 
 $headTags = [
 	"link" => [
@@ -37,12 +37,9 @@ $headTags = [
 		],
 		[
 			"src" => "../assets/libraries/bootstrap/bootstrap.bundle.min.js"
-		],
-		[
-			"src" => "../assets/libraries/lodash/lodash.min.js"
 		]
 	],
-	"title" => "login"
+	"title" => "PlanningPoker - Login"
 ];
 $head = new HeadBuilder($headTags);
 
@@ -57,7 +54,20 @@ $navArr = [
 		"width" => 0,
 		"height" => 0
 	],
-	"routes" => [],
+	"routes" => [
+		[
+			"title" => "Home",
+			"href" => "./",
+			"active" => false,
+			"disabled" => false
+		],
+		[
+			"title" => "Information",
+			"href" => "./information",
+			"active" => false,
+			"disabled" => false
+		]
+	],
 	"icons" => [
 		[
 			"href" => "",
@@ -94,10 +104,10 @@ $nav = new NavBuilder($navArr);
 				<div class="main-box-header-content">Login</div>
 			</div>
 			<div class="main-box-content">
-				<form class="_form" action="../assets/php/login.php" method="GET">
+				<form class="_form" action="../assets/php/logic/login.php" method="GET">
 					<div class="_form-field">
 						<div class="_input-single">
-							<input id="name" class="_input" type="text" placeholder="Username/E-Mail" name="name"></input>
+							<input id="name" class="_input" type="text" placeholder="Username/E-Mail" name="name" autocomplete="off"></input>
 							<div class="_input-icon _icon-left">
 								<i class="mdi mdi-24px mdi-account-outline"></i>
 							</div>
@@ -105,7 +115,7 @@ $nav = new NavBuilder($navArr);
 					</div>
 					<div class="_form-field">
 						<div class="_input-single">
-							<input id="password" class="_input" type="password" placeholder="Password" name="password"></input>
+							<input id="password" class="_input" type="password" placeholder="Password" name="password" autocomplete="off"></input>
 							<div class="_input-icon _icon-left">
 								<i class="mdi mdi-24px mdi-lock-outline"></i>
 							</div>
@@ -114,18 +124,18 @@ $nav = new NavBuilder($navArr);
 							</div>
 						</div>
 					</div>
-					<div id="saveSession" class="_checkbox">
-						<div class="_box"></div>
-						<div class="_label">Remember Me</div>
+					<div class="_checkbox">
+						<div id="rememberMe" class="_box"></div>
+						<label class="_label">Remember Me</label>
 					</div>
 					<div>
-						<input id="submit" type="submit" value="submit" class="btn _button-default btn-lg-block" style="width: 200px;" disabled>
+						<input id="submit" type="submit" value="submit" class="btn _button-default btn-block" disabled>
 					</div>
 				</form>
 			</div>
 			<div class="main-box-footer">
 				<div class="main-box-footer-content">
-					<a href="./register.php">Don't have an account? Register here!</a>
+					<a href="./register">Don't have an account? Register here!</a>
 				</div>
 				<div class="main-box-expand">
 					<i class="mdi mdi-36px"></i>
@@ -134,18 +144,13 @@ $nav = new NavBuilder($navArr);
 		</div>
 	</div>
 
+	<?php
+	if (isset($_SESSION['LASTERROR']) && sizeof($_SESSION['LASTERROR']) > 0)
+		include_once "../components/last_error.php";
+	?>
+
 	<?php include_once "../assets/php/planningpoker.js.php"; ?>
 	<script>
-		function revealPassword(id) {
-			if ($(`#${id}`).hasClass('mdi-eye-outline')) {
-				$(`#${id}`).removeClass('mdi-eye-outline').addClass('mdi-eye-off-outline');
-				$(`#${id}`).parents('._input-single').children('._input').attr('type', "text");
-			} else {
-				$(`#${id}`).removeClass('mdi-eye-off-outline').addClass('mdi-eye-outline');
-				$(`#${id}`).parents('._input-single').children('._input').attr('type', 'password');
-			}
-		}
-
 		$('i#revealPassword').click(function() {
 			revealPassword(this.id);
 		});

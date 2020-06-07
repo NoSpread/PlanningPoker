@@ -9,6 +9,8 @@ class Account
 
     private $db;
     private $table = 'accounts';
+    private $token_table = 'auth_tokens';
+    private $domain = "localhost";
 
     // account information
     private $id;
@@ -159,15 +161,42 @@ class Account
      * @throws Exception wrong credentials
      * @return bool login successful
      */
-    public function login(string $password, string $userOrEmail = "", bool $remember_me = false)
+    public function login(string $password, bool $remember_me = false)
     {
-        $this->setDefault(["username", "password"], $userOrEmail, $password);
+        $this->setDefault(["password"], $password);
         $this->getAccountByName($this->username);
 
         if ($this->checkPassword($password)) {
 
             if ($remember_me) {
-                // do remember me
+                $token = Utils::generateToken(32);
+                $tokenHash = hash("sha256", $token);
+                $expires = strtotime("+1 month");
+                $timestamp = date("Y-m-d H:i:s", $expires);
+
+                $oneinamillion = true;
+                while ($oneinamillion) {
+                    $selector = Utils::generateToken(6);
+                    $this->db
+                        ->where("selector", $selector)
+                        ->get($this->token_table);
+                    if ($this->db->count == 0) $oneinamillion = false;
+                }
+
+                $data = [
+                    "selector" => $selector,
+                    "hashedValidator" => $tokenHash,
+                    "userid" => $this->id,
+                    "expires" => $timestamp
+                ];
+
+                setcookie("remember", $selector . $token, $expires, "/", $this->domain);
+
+                $this->db->insert($this->token_table, $data);
+
+                if ($this->db->getLastErrno() !== 0) {
+                    throw new Exception("Failed to set token");
+                }
             }
             // verified login
             $updateData = [
@@ -184,8 +213,8 @@ class Account
             return true;
         } else {
             // wrong credentials
-            session_destroy();
-            throw new Exception("wrong credentials");
+            //session_destroy();
+            throw new Exception("Username or password wrong");
         }
     }
 
@@ -212,23 +241,22 @@ class Account
     {
         $this->setDefault(["id"], $userID);
 
-        if (!isset($id)) return false;
-
         foreach ($changed as $column => $data) {
-            $changed[$column] = $this->db->escape(htmlspecialchars($data));
+            if ($column == "password") {
+                $changed[$column] =  password_hash($data, PASSWORD_ARGON2ID);
+            } else {
+                $changed[$column] = $this->db->escape(htmlspecialchars($data));
+            }
         }
 
-        $user = $this->getAccountByID($userID);
-        if (password_verify($password, $user->password)) {
-            $this->db
-                ->where('id', $userID)
-                ->update($this->table, $changed);
-        }
+        $this->db
+            ->where('id', $this->id)
+            ->update($this->table, $changed);
 
         if ($this->db->getLastErrno() === 0) {
-            return $this;
+            return $this->getAccountByID($this->id);
         } else {
-            throw new Exception("user entry update failed");
+            throw new Exception("User update failed");
         }
     }
 
@@ -251,7 +279,7 @@ class Account
                 ->where('id', $this->id)
                 ->delete($this->table);
         } else {
-            throw new Exception("password wrong");
+            throw new Exception("Password is wrong");
         }
         return true;
     }
@@ -284,7 +312,7 @@ class Account
             }
             return $this;
         }
-        throw new Exception("name or email not found in database");
+        throw new Exception("Name or email does not exist");
     }
 
     /**
@@ -317,6 +345,21 @@ class Account
         throw new Exception("ID not in database");
     }
 
+    public function getAccountBySelector($selector, $validator)
+    {
+        $this->db->setTrace (true);
+        $auth = $this->db
+            ->rawQueryOne("SELECT * FROM " . $this->token_table . " WHERE expires > NOW() AND selector = ?", [$selector]);
+
+        //DBG
+        $hash = hash("sha256", $validator);
+        //DBG
+        $trace = $this->db->trace;
+        if ($this->db->count == 0) return false;
+        if (hash_equals($auth["hashedValidator"], hash("sha256", $validator))) return $this->getAccountByID($auth["userid"]);
+        return false;
+    }
+
     /**
      * checks if password is correct
      * @access public
@@ -328,8 +371,8 @@ class Account
     public function checkPassword(string $password, string $dbpassword = "")
     {
         $this->setDefault(["password"], $dbpassword);
-
-        if (!isset($this->password)) throw new Exception("account not loaded in class");
+        
+        if (!isset($this->password)) throw new Exception("Account not loaded in class");
         return password_verify($password, $this->password);
     }
 
@@ -365,8 +408,21 @@ class Account
             $errors[] = "Password must contain at least 1 letter!";
         }
 
-        if (!preg_match("@[`!@§$#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?~]@", $pwd)) {
+        if (!preg_match("@[^\w]@", $pwd)) {
             $errors[] = "Password must contain at least 1 special character!";
+        }
+    }
+
+    public static function checkUsernameRequirements($username, &$errors)
+    {
+        if (strlen($username) > 20) {
+            $errors[] = "Username is too long!";
+        }
+        if (strlen($username) < 3) {
+            $errors[] = "Username is too short!";
+        }
+        if (!preg_match("@[a-zA-Z0-9\u00c4-\u00df\u00e4-\u00fc]@", $username)) {
+            $errors[] = "Username has invalid characters!";
         }
     }
 
@@ -377,11 +433,12 @@ class Account
         $games = $this->db
             ->join("games g", "g.id = i.Invited_GameID", "INNER")
             ->where("Inviter_UserID", $this->id)
+            ->where("end_date", NULL, "IS")
             ->groupBy("Invited_GameID")
             ->get("invites i", null, "Invited_GameID");
         foreach ($games as $gameID) {
-            $game = new Game();
-            array_push($this->games, $game->load($gameID["Invited_GameID"]));
+            //$game = new Game();
+            array_push($this->games, $gameID["Invited_GameID"]);//$game->load($gameID["Invited_GameID"]));
         }
         return $this;
     }
@@ -399,9 +456,37 @@ class Account
             ->get("invites", null, "Invited_GameID");
 
         foreach ($games as $gameID) {
-            $game = new Game();
-            array_push($this->gameInvites, $game->load($gameID["Invited_GameID"]));
+            //$game = new Game();
+            array_push($this->gameInvites, $gameID["Invited_GameID"]);//$game->load($gameID["Invited_GameID"]));
         }
         return $this;
+    }
+
+    public function partOfGame(int $gameID, int $userID = null) 
+    {
+        $this->setDefault(["id"], $userID);
+
+        $games = $this->db
+                        ->join("games", "id = Invited_GameID", "INNER")
+                        ->where("accepted", 1)
+                        ->where("end_date", NULL, "IS")
+                        ->where("Invited_GameID", $gameID)
+                        ->where("Invited_UserID", $this->id)
+                        ->orWhere("Inviter_UserID", $this->id)
+                        ->groupBy("Invited_GameID")
+                        ->get("invites", null, "Invited_GameID");
+        
+        if ($this->db->count > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function clearSession(int $userID = null) {
+        $this->setDefault(["id"], $userID);
+
+        $this->db
+                ->where("userid", $this->id)
+                ->delete($this->token_table);
     }
 }

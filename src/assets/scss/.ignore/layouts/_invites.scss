@@ -1,0 +1,14 @@
+._invites {
+    padding: 0.5rem;
+    & ._invites-open {
+        padding: 1rem 0;
+
+        & ._invites-open-host {
+            padding: 0.5rem 1rem;
+            border-bottom: 2px solid $sColor;
+        }
+
+        & ._invites-open-topic {
+        }
+    }
+}

@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-include_once "../assets/php/auth.php";
-include_once "../assets/php/HeadBuilder.php";
+include_once "../assets/php/logic/auth.php";
+include_once "../assets/php/classes/HeadBuilder.php";
 
 $headTags = [
     "link" => [
@@ -37,12 +37,9 @@ $headTags = [
         ],
         [
             "src" => "../assets/libraries/bootstrap/bootstrap.bundle.min.js"
-        ],
-        [
-            "src" => "../assets/libraries/lodash/lodash.min.js"
         ]
     ],
-    "title" => "register"
+    "title" => "PlanningPoker - Registration"
 ];
 $head = new HeadBuilder($headTags);
 
@@ -57,7 +54,20 @@ $navArr = [
         "width" => 0,
         "height" => 0
     ],
-    "routes" => [],
+    "routes" => [
+        [
+            "title" => "Home",
+            "href" => "./",
+            "active" => false,
+            "disabled" => false
+        ],
+        [
+            "title" => "Information",
+            "href" => "./information",
+            "active" => false,
+            "disabled" => false
+        ]
+    ],
     "icons" => [
         [
             "href" => "",
@@ -94,16 +104,16 @@ $nav = new NavBuilder($navArr);
                 <div class="main-box-header-content">Register</div>
             </div>
             <div class="main-box-content">
-                <form class="_form" action="../assets/php/register.php" method="GET">
+                <form class="_form" action="../assets/php/logic/register.php" method="GET">
                     <div class="_form-field _form-group _form-sm-group-col">
                         <div class="_input-single">
-                            <input id="name" class="_input" type="text" placeholder="Username" name="name"></input>
+                            <input id="name" class="_input" type="text" placeholder="Username" name="name" autocomplete="off"></input>
                             <div class="_input-icon _icon-left">
                                 <i class="mdi mdi-24px mdi-account-outline"></i>
                             </div>
                         </div>
                         <div class="_input-single">
-                            <input id="email" class="_input" type="text" placeholder="E-Mail" name="email"></input>
+                            <input id="email" class="_input" type="text" placeholder="E-Mail" name="email" autocomplete="off"></input>
                             <div class="_input-icon _icon-left">
                                 <i class="mdi mdi-24px mdi-email-outline"></i>
                             </div>
@@ -111,7 +121,7 @@ $nav = new NavBuilder($navArr);
                     </div>
                     <div class="_form-field _form-group _form-sm-group-col">
                         <div class="_input-single">
-                            <input id="password1" class="_input" type="password" placeholder="Password" name="password1"></input>
+                            <input id="password1" class="_input" type="password" placeholder="Password" name="password1" autocomplete="off"></input>
                             <div class="_input-icon _icon-left">
                                 <i class="mdi mdi-24px mdi-lock-outline"></i>
                             </div>
@@ -120,7 +130,7 @@ $nav = new NavBuilder($navArr);
                             </div>
                         </div>
                         <div class="_input-single">
-                            <input id="password2" class="_input" type="password" placeholder="Repeat Password" name="password2"></input>
+                            <input id="password2" class="_input" type="password" placeholder="Repeat Password" name="password2" autocomplete="off"></input>
                             <div class="_input-icon _icon-left">
                                 <i class="mdi mdi-24px mdi-lock-outline"></i>
                             </div>
@@ -130,13 +140,13 @@ $nav = new NavBuilder($navArr);
                         </div>
                     </div>
                     <div>
-                        <input id="submit" type="submit" value="submit" class="btn _button-default btn-lg-block" style="width: 200px;" disabled></input>
+                        <input id="submit" type="submit" value="submit" class="btn _button-default btn-block" disabled></input>
                     </div>
                 </form>
             </div>
             <div class="main-box-footer">
                 <div class="main-box-footer-content">
-                    <a href="./login.php">Already have an account? Login here!</a>
+                    <a href="./login">Already have an account? Login here!</a>
                 </div>
                 <div class="main-box-expand">
                     <i class="mdi mdi-36px"></i>
@@ -146,21 +156,12 @@ $nav = new NavBuilder($navArr);
     </div>
 
     <?php
-    if (sizeof($_SESSION['LASTERROR']) > 0)
-        include_once "../components/modal.php";
+    if (isset($_SESSION['LASTERROR']) && sizeof($_SESSION['LASTERROR']) > 0)
+        include_once "../components/last_error.php";
     ?>
 
     <?php include_once "../assets/php/planningpoker.js.php"; ?>
     <script>
-        function revealPassword(id) {
-            if ($(`#${id}`).hasClass('mdi-eye-outline')) {
-                $(`#${id}`).removeClass('mdi-eye-outline').addClass('mdi-eye-off-outline');
-                $(`#${id}`).parents('._input-single').children('._input').attr('type', "text");
-            } else {
-                $(`#${id}`).removeClass('mdi-eye-off-outline').addClass('mdi-eye-outline');
-                $(`#${id}`).parents('._input-single').children('._input').attr('type', 'password');
-            }
-        }
         $('i#revealPassword1').click(function() {
             revealPassword(this.id);
         });
@@ -218,6 +219,7 @@ $nav = new NavBuilder($navArr);
         });
 
         addAfter('password1', 'info', 'Requirements: 8+ characters, 1+ digit, 1+ special character');
+        addAfter('password2', 'info', 'Requirements: Passwords must match');
 
         $('#password1').keyup(function() {
             let check = passwordCheck($(this).val());
@@ -227,13 +229,23 @@ $nav = new NavBuilder($navArr);
                 bool: check == true ? true : false
             };
 
+            const compareCheck = passwordCompare(
+                $('#password1').val(),
+                $('#password2').val()
+            );
+            if (compareCheck == true)
+                changeAfter(
+                    'password2',
+                    'Requirements: Passwords must match',
+                    'success'
+                );
+            else changeAfter('password2', compareCheck, 'error')
+
             if (check == true)
                 return changeAfter('password1', 'Requirements: 8+ characters, 1+ digit, 1+ special character', 'success');
 
             return changeAfter('password1', check, 'error');
         });
-
-        addAfter('password2', 'info', 'Requirements: Passwords must match');
 
         $('#password2').keyup(function() {
             let check = passwordCompare($('#password1').val(), $(this).val());

@@ -32,23 +32,6 @@ class Utils
     }
 
     /**
-     * generates a random String
-     * @access public
-     * @param integer $length of string
-     * @return string $randomString
-     */
-    public static function generateRandomString($length = 30)
-    {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
-    }
-
-    /**
      * redirect to transferred url
      * @access public
      * @param mixed $url
@@ -80,5 +63,10 @@ class Utils
             default:
                 return null;
         }
+    }
+
+    public static function generateToken($length = 20)
+    {
+        return bin2hex(random_bytes($length));
     }
 }

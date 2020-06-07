@@ -1,0 +1,19 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} !^/pages/
+RewriteCond %{REQUEST_URI} !^/assets/
+RewriteRule ^(.*)$ /pages/$1 [L,R=301]
+RewriteRule /assets/(.*)$ /assets/$1 [L,R=301]
+
+# Prevent viewing of htaccess file.
+<Files .htaccess>
+    order allow,deny
+    deny from all
+</Files>
+
+# Prevent directory listings
+Options All -Indexes
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php

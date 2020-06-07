@@ -1,0 +1,70 @@
+._information-header {
+    color: darken($pColor, 30%);
+    width: 100%;
+    padding: 2rem 1rem 1rem 1rem;
+    border-bottom: 2px solid $sColor;
+
+    & ._information-header-brand {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 1rem;
+    }
+
+    & ._information-header-description {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+._information-content {
+    color: darken($pColor, 30%);
+    border-bottom: solid 1px $sBorder;
+    padding: 1.5rem 0;
+
+    & ._information-content-image {
+        display: flex;
+        justify-content: center;
+
+        & svg {
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            box-shadow: 0 0 50px black inset;
+        }
+
+        & .animated {
+            color: $pColor;
+        }
+    }
+
+    & ._information-content-description {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &._description-left {
+            align-items: flex-start;
+            border-left: solid 2px $sColor;
+        }
+
+        &._description-right {
+            align-items: flex-end;
+            border-right: solid 2px $sColor;
+        }
+    }
+}
+
+#poker-chip {
+    animation: spin 3s infinite linear;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

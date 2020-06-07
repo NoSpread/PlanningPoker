@@ -35,3 +35,19 @@
     }
     @return $height;
 }
+
+@mixin position($pos) {
+    @if $pos == 1 {
+        top: 5px;
+        left: 10px;
+    } @else if $pos == 2 {
+        top: 5px;
+        right: 10px;
+    } @else if $pos == 3 {
+        left: 10px;
+        bottom: 5px;
+    } @else if $pos == 4 {
+        right: 10px;
+        bottom: 5px;
+    }
+}

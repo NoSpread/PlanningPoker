@@ -1,0 +1,155 @@
+Date : 2020-06-06 22:40:58
+Directory : c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker
+Total : 97 files,  30380 codes, 3619 comments, 5165 blanks, all 39164 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| CSS        |          8 |     13,006 |         47 |      1,469 |     14,522 |
+| JavaScript |         18 |      8,431 |      1,742 |      2,117 |     12,290 |
+| PHP        |         39 |      5,188 |      1,699 |        855 |      7,742 |
+| SCSS       |         20 |      2,149 |         38 |        461 |      2,648 |
+| Markdown   |          2 |        995 |          0 |        183 |      1,178 |
+| SQL        |          6 |        573 |         93 |         76 |        742 |
+| JSON       |          1 |         25 |          0 |          1 |         26 |
+| XML        |          1 |          8 |          0 |          1 |          9 |
+| Properties |          2 |          5 |          0 |          2 |          7 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                          | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                             |         97 |     30,380 |      3,619 |      5,165 |     39,164 |
+| database                                                                                                                      |          5 |        556 |         75 |         65 |        696 |
+| src                                                                                                                           |         77 |     26,264 |      2,167 |      4,405 |     32,836 |
+| src\assets                                                                                                                    |         65 |     24,670 |      2,139 |      4,289 |     31,098 |
+| src\assets\css                                                                                                                |          1 |         41 |          0 |          1 |         42 |
+| src\assets\dist                                                                                                               |          1 |          1 |          6 |          1 |          8 |
+| src\assets\js                                                                                                                 |         13 |        495 |         29 |         93 |        617 |
+| src\assets\js\components                                                                                                      |          3 |        162 |          8 |         23 |        193 |
+| src\assets\js\utils                                                                                                           |          4 |         94 |         11 |         21 |        126 |
+| src\assets\libraries                                                                                                          |         11 |     20,900 |      1,754 |      3,491 |     26,145 |
+| src\assets\libraries\bootstrap                                                                                                |         10 |     20,899 |      1,753 |      3,491 |     26,143 |
+| src\assets\libraries\jquery                                                                                                   |          1 |          1 |          1 |          0 |          2 |
+| src\assets\php                                                                                                                |         19 |      1,084 |        312 |        242 |      1,638 |
+| src\assets\php\classes                                                                                                        |          5 |        739 |        298 |        142 |      1,179 |
+| src\assets\php\logic                                                                                                          |         13 |        330 |         14 |         97 |        441 |
+| src\assets\scss                                                                                                               |         20 |      2,149 |         38 |        461 |      2,648 |
+| src\assets\scss\.ignore                                                                                                       |         19 |      2,143 |         38 |        458 |      2,639 |
+| src\assets\scss\.ignore\components                                                                                            |          6 |        269 |         27 |         47 |        343 |
+| src\assets\scss\.ignore\layouts                                                                                               |          8 |        435 |          0 |         79 |        514 |
+| src\components                                                                                                                |          5 |        277 |          0 |         12 |        289 |
+| src\layouts                                                                                                                   |          1 |        168 |         26 |         23 |        217 |
+| src\pages                                                                                                                     |          6 |      1,149 |          2 |         81 |      1,232 |
+| submodules                                                                                                                    |         14 |      3,557 |      1,377 |        694 |      5,628 |
+| submodules\PHP-MySQLi-Database-Class                                                                                          |         14 |      3,557 |      1,377 |        694 |      5,628 |
+| submodules\PHP-MySQLi-Database-Class\tests                                                                                    |          7 |        776 |         87 |        117 |        980 |
+| submodules\PHP-MySQLi-Database-Class\tests\dataimport                                                                         |          3 |         72 |         27 |         17 |        116 |
+| submodules\PHP-MySQLi-Database-Class\tests\models                                                                             |          2 |         40 |         23 |          8 |         71 |
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                                      | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\.gitmodules                                                           | Properties |          3 |          0 |          1 |          4 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\database\2020-05-10 22_01_43 - BACKUP.sql                             | SQL        |         41 |         11 |          9 |         61 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\database\2020-05-10 22_55_19 - BACKUP.sql                             | SQL        |         73 |         15 |         13 |        101 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\database\2020-05-25 13_55_09 - BACKUP.sql                             | SQL        |        138 |         15 |         13 |        166 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\database\2020-06-04 18_03_12 - BACKUP.sql                             | SQL        |        145 |         17 |         15 |        177 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\database\2020-06-04 20_22_56 - BACKUP.sql                             | SQL        |        159 |         17 |         15 |        191 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\css\materialdesignicons.helper.css                         | CSS        |         41 |          0 |          1 |         42 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\dist\planningpoker.min.css                                 | CSS        |          1 |          6 |          1 |          8 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\_variables.js                                           | JavaScript |         18 |          0 |          7 |         25 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\accounthandler.js                                       | JavaScript |          9 |          0 |          1 |         10 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\components\checkbox.js                                  | JavaScript |         26 |          0 |          5 |         31 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\components\input.js                                     | JavaScript |         71 |          0 |          8 |         79 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\components\mainBox.js                                   | JavaScript |         65 |          8 |         10 |         83 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\game.js                                                 | JavaScript |         64 |         10 |         15 |         89 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\gamehandler.js                                          | JavaScript |         55 |          0 |          5 |         60 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\opengamehandler.js                                      | JavaScript |         14 |          0 |          1 |         15 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\profile.js                                              | JavaScript |         79 |          0 |         20 |         99 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\utils\animate.js                                        | JavaScript |         21 |         11 |          2 |         34 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\utils\revealPassword.js                                 | JavaScript |         19 |          0 |          1 |         20 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\utils\tooltip.js                                        | JavaScript |          3 |          0 |          1 |          4 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\js\utils\validation.js                                     | JavaScript |         51 |          0 |         17 |         68 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap-grid.css                     | CSS        |      3,681 |          7 |        211 |      3,899 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap-grid.min.css                 | CSS        |          1 |          6 |          0 |          7 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap-reboot.css                   | CSS        |        264 |          8 |         55 |        327 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap-reboot.min.css               | CSS        |          1 |          7 |          0 |          8 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap.bundle.js                    | JavaScript |      4,586 |      1,375 |      1,174 |      7,135 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap.bundle.min.js                | JavaScript |          1 |          6 |          0 |          7 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap.css                          | CSS        |      9,016 |          7 |      1,201 |     10,224 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap.js                           | JavaScript |      3,347 |        325 |        850 |      4,522 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap.min.css                      | CSS        |          1 |          6 |          0 |          7 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\bootstrap\bootstrap.min.js                       | JavaScript |          1 |          6 |          0 |          7 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\libraries\jquery\jquery-3.5.1.min.js                       | JavaScript |          1 |          1 |          0 |          2 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\classes\Account.php                                    | PHP        |        313 |        111 |         64 |        488 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\classes\Database.php                                   | PHP        |         10 |          1 |          1 |         12 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\classes\Game.php                                       | PHP        |        199 |         87 |         41 |        327 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\classes\HeadBuilder.php                                | PHP        |        171 |         82 |         26 |        279 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\classes\Utils.php                                      | PHP        |         46 |         17 |         10 |         73 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\auth.php                                         | PHP        |         27 |          0 |         13 |         40 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\cards.php                                        | PHP        |         42 |          0 |          7 |         49 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\close.php                                        | PHP        |         21 |          0 |          5 |         26 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\create.php                                       | PHP        |         27 |          0 |          6 |         33 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\delete.php                                       | PHP        |         17 |          0 |          5 |         22 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\drawcard.php                                     | PHP        |         17 |          5 |          8 |         30 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\gamedata.php                                     | PHP        |         30 |          1 |          8 |         39 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\games.php                                        | PHP        |         42 |          3 |         12 |         57 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\invite.php                                       | PHP        |         23 |          0 |          6 |         29 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\join.php                                         | PHP        |         21 |          0 |          5 |         26 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\login.php                                        | PHP        |         22 |          2 |          6 |         30 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\register.php                                     | PHP        |         27 |          3 |          7 |         37 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\logic\test.php                                         | PHP        |         14 |          0 |          9 |         23 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\php\planningpoker.js.php                                   | PHP        |         15 |          0 |          3 |         18 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\_animations.scss                              | SCSS       |      1,354 |         11 |        315 |      1,680 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\_components.scss                              | SCSS       |          6 |          0 |          1 |          7 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\_layouts.scss                                 | SCSS       |          8 |          0 |          1 |          9 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\_mixins.scss                                  | SCSS       |         47 |          0 |          7 |         54 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\_variables.scss                               | SCSS       |         24 |          0 |          8 |         32 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\components\_button.scss                       | SCSS       |         43 |          0 |          7 |         50 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\components\_card.scss                         | SCSS       |          5 |          0 |          1 |          6 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\components\_checkbox.scss                     | SCSS       |         49 |          0 |          8 |         57 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\components\_form.scss                         | SCSS       |         95 |          0 |         15 |        110 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\components\_main-box.scss                     | SCSS       |         59 |          0 |         10 |         69 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\components\_modal.scss                        | SCSS       |         18 |         27 |          6 |         51 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\layouts\_body.scss                            | SCSS       |         44 |          0 |          8 |         52 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\layouts\_game.scss                            | SCSS       |        194 |          0 |         33 |        227 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\layouts\_home.scss                            | SCSS       |         27 |          0 |          4 |         31 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\layouts\_information.scss                     | SCSS       |         59 |          0 |         12 |         71 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\layouts\_invites.scss                         | SCSS       |         12 |          0 |          3 |         15 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\layouts\_nav.scss                             | SCSS       |         88 |          0 |         17 |        105 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\layouts\_profile.scss                         | SCSS       |          7 |          0 |          1 |          8 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\.ignore\layouts\_view.scss                            | SCSS       |          4 |          0 |          1 |          5 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\assets\scss\planningpoker.scss                                    | SCSS       |          6 |          0 |          3 |          9 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\components\create_account_box.php                                 | PHP        |         21 |          0 |          0 |         21 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\components\invite_box.php                                         | PHP        |         89 |          0 |          8 |         97 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\components\last_error.php                                         | PHP        |         26 |          0 |          1 |         27 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\components\play_box.php                                           | PHP        |         55 |          0 |          1 |         56 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\components\profile.php                                            | PHP        |         86 |          0 |          2 |         88 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\layouts\nav.php                                                   | PHP        |        168 |         26 |         23 |        217 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\pages\game.php                                                    | PHP        |        453 |          2 |         20 |        475 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\pages\index.php                                                   | PHP        |        124 |          0 |         10 |        134 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\pages\information.php                                             | PHP        |        144 |          0 |          9 |        153 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\pages\login.php                                                   | PHP        |        185 |          0 |         11 |        196 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\pages\logout.php                                                  | PHP        |         10 |          0 |          2 |         12 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\src\pages\register.php                                                | PHP        |        233 |          0 |         29 |        262 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\.gitattributes                   | Properties |          2 |          0 |          1 |          3 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\MysqliDb.php                     | PHP        |      1,215 |        998 |        294 |      2,507 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\composer.json                    | JSON       |         25 |          0 |          1 |         26 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\dbObject.md                      | Markdown   |        273 |          0 |         65 |        338 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\dbObject.php                     | PHP        |        433 |        292 |         83 |        808 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\index.php                        | PHP        |        111 |          0 |         15 |        126 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\readme.md                        | Markdown   |        722 |          0 |        118 |        840 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\tests\dataimport\data.xml        | XML        |          8 |          0 |          1 |          9 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\tests\dataimport\test.import.php | PHP        |         47 |          9 |          5 |         61 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\tests\dataimport\users.sql       | SQL        |         17 |         18 |         11 |         46 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\tests\dbObjectTests.php          | PHP        |        242 |          5 |         39 |        286 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\tests\models\product.php         | PHP        |         19 |          8 |          4 |         31 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\tests\models\user.php            | PHP        |         21 |         15 |          4 |         40 |
+| c:\Users\NoSpread\Dropbox\Gruppenarbeiten\PlanningPoker\submodules\PHP-MySQLi-Database-Class\tests\mysqliDbTests.php          | PHP        |        422 |         32 |         53 |        507 |
+| Total                                                                                                                         |            |     30,380 |      3,619 |      5,165 |     39,164 |
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

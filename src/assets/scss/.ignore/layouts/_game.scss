@@ -1,0 +1,231 @@
+._game {
+    width: 100%;
+    color: darken($pColor, 30%);
+
+    & > .row {
+        border: 1px solid $pBorder;
+    }
+
+    & ._game-field {
+        position: relative;
+        border-right: 1px solid $sBorder;
+
+        @for $i from 1 through 4 {
+            & #user-#{$i}._game-field-user {
+                position: absolute;
+                @include position($i);
+                z-index: 500;
+
+                & > div {
+                    color: darken($pColor, 30%);
+                    padding: 0.5rem;
+                    border-bottom: 2px solid map-get($players, $i);
+                }
+            }
+        }
+
+        & ._game-field-content {
+            @for $i from 1 through 4 {
+                & #card-#{$i}._game-field-content-card {
+                    display: flex;
+                    @if $i % 2 == 1 {
+                        justify-content: flex-end;
+                        align-items: flex-end;
+                    } @else {
+                        justify-content: flex-start;
+                        align-items: flex-start;
+                    }
+                    @if $i <= 2 {
+                        padding: 3.5rem 1rem 1rem 1rem;
+                    } @else {
+                        padding: 1rem 1rem 3.5rem 1rem;
+                    }
+
+                    & ._game-field-content-card-responsive-points > div {
+                        border-bottom: 2px solid map-get($players, $i);
+                    }
+                }
+            }
+
+            & ._game-field-content-card-responsive {
+                & ._game-field-content-card-responsive-symbol {
+                    transition: all 0.3s ease;
+                }
+
+                &:hover {
+                    cursor: pointer;
+                    & ._game-field-content-card-responsive-symbol {
+                        color: $pColor;
+                    }
+                }
+            }
+
+            & ._game-field-content-card ._game-field-content-card-responsive {
+                border: 1px solid $pBorder;
+                background-color: $sBG;
+                width: 150px;
+                height: 222px;
+
+                & ._game-field-content-card-responsive-symbol {
+                    padding: 2.5rem 0;
+                    text-align: center;
+
+                    & h1 {
+                        text-align: center;
+                    }
+                }
+
+                & ._game-field-content-card-responsive-points {
+                    display: flex;
+                    padding: 0.5rem;
+
+                    &:last-child {
+                        transform: rotate(180deg);
+                        align-items: flex-end;
+                    }
+
+                    & div {
+                        width: 25px;
+                        text-align: center;
+
+                        & div.mdi-loading {
+                            animation: spin 1s infinite linear;
+                            border-bottom: none !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    & ._game-feed {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5rem 0;
+
+        & ._game-feed-topic {
+            position: absolute;
+            top: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            & ._game-feed-topic-text {
+                padding: 0.5rem;
+                border-bottom: 2px solid $sColor;
+            }
+        }
+
+        & ._game-feed-host {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            & ._game-feed-host-username {
+                padding: 0.5rem;
+                border-bottom: 2px solid $sColor;
+            }
+        }
+
+        & ._game-feed-gameSettings {
+            position: absolute;
+            bottom: 5px;
+            padding: 0 0.3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+._closeGameMobile {
+    padding: 0 0.3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+._game-stats-value {
+    padding: 0.5rem;
+    border-bottom: 2px solid $sColor;
+}
+
+#chooseCards {
+    padding: 0.5rem;
+
+    & a {
+        transition: all 0.3s ease;
+
+        & .col {
+            font-size: 20px;
+            font-weight: 500;
+            padding: 3rem 0.5rem;
+            border: 1px solid $pBorder;
+        }
+
+        &:hover {
+            cursor: pointer;
+            color: $pColor;
+        }
+    }
+}
+
+@media only screen and (max-width: 991.98px) {
+    ._game ._game-field {
+        border: none !important;
+        & ._game-field-content ._game-field-content-card {
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 0 !important;
+            width: 100%;
+        }
+    }
+    ._game-field-content-card {
+        padding: 0 !important;
+
+        & ._game-field-content-card-responsive {
+            width: 100% !important;
+            height: 120px !important;
+        }
+    }
+
+    ._game-field-content-card-responsive-points {
+        padding: 0.1rem 0.2rem !important;
+    }
+
+    ._game-field-content-card-responsive-symbol {
+        padding-top: 0.1rem !important;
+        padding-bottom: 0.1rem !important;
+    }
+
+    ._game-field-content {
+        & .col {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+    }
+
+    @for $i from 1 through 4 {
+        & #user-#{$i}._game-field-user {
+            @if $i == 1 {
+                top: 75px !important;
+                left: 20px !important;
+            } @else {
+                top: calc(75px + (120px + 1rem) * (#{$i} - 1)) !important;
+                @if $i % 2 == 1 {
+                    left: 20px !important;
+                } @else {
+                    left: 20px !important;
+                    right: auto !important;
+                }
+            }
+        }
+    }
+}

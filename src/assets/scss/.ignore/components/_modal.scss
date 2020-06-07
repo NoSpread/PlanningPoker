@@ -1,3 +1,28 @@
+._modal {
+    color: darken($pColor, 30%);
+
+    & ._modal-content {
+        background-color: $pBG;
+        border: 1px solid $pBorder;
+
+        & ._modal-header {
+            background-color: $sBG;
+            border: none;
+        }
+
+        & ._modal-body {
+            background-color: $pBG;
+        }
+
+        & ._modal-footer {
+            background-color: $sBG;
+            border: none;
+        }
+    }
+}
+
+/*
+
 <div class="modal fade" id="lastError" tabindex="-1" role="dialog" aria-labelledby="lastErrorCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -22,6 +47,4 @@
     </div>
 </div>
 
-<script>
-    $('#lastError').modal('show');
-</script>
+*/

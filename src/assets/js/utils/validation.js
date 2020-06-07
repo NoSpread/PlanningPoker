@@ -15,6 +15,8 @@ function usernameCheck(username) {
 
     if (username.length < 3) return 'Username must be at least 3 characters.';
 
+    if (username.length > 20) return 'Username is too long.';
+
     return true;
 }
 
@@ -28,9 +30,8 @@ function passwordCheck(password) {
             return `Character ${password.charAt(i)} is not allowed.`;
     }
 
-    if (!letters.test(password)) {
+    if (!letters.test(password))
         return 'Password must contain at least 1 letter.';
-    }
 
     if (!digits.test(password))
         return 'Password must contain at least 1 digit.';

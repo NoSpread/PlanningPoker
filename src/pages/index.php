@@ -1,12 +1,12 @@
 <?php
 session_start();
-require_once "../assets/php/auth.php";
+require_once "../assets/php/logic/auth.php";
 
-require_once "../assets/php/Account.php";
-require_once "../assets/php/Game.php";
-require_once "../assets/php/HeadBuilder.php";
+require_once "../assets/php/classes/Account.php";
+require_once "../assets/php/classes/Game.php";
+require_once "../assets/php/classes/HeadBuilder.php";
 
-$account = unserialize($_SESSION['USER']);
+if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN']) $account = unserialize($_SESSION['USER']);
 
 $headTags = [
     "link" => [
@@ -43,10 +43,10 @@ $headTags = [
             "src" => "../assets/libraries/bootstrap/bootstrap.bundle.min.js"
         ],
         [
-            "src" => "../assets/libraries/lodash/lodash.min.js"
+            "src" => "../assets/js/opengamehandler.js"
         ]
     ],
-    "title" => "index"
+    "title" => "PlanningPoker - Home"
 ];
 $head = new HeadBuilder($headTags);
 
@@ -69,8 +69,8 @@ $navArr = [
             "disabled" => false
         ],
         [
-            "title" => "How To Play",
-            "href" => "#",
+            "title" => "Information",
+            "href" => "./information",
             "active" => false,
             "disabled" => false
         ]
@@ -92,11 +92,11 @@ $navArr = [
         ]
     ],
     "profile" => [
-        "name" => $account->username,
+        "name" => $_SESSION['LOGGEDIN'] ? $account->username : "",
         "items" => [
             [
                 "title" => "Profile",
-                "href" => "#"
+                "href" => '#'
             ]
         ]
     ]
@@ -109,27 +109,26 @@ $nav = new NavBuilder($navArr);
 <?php $head->setTags() ?>
 
 <body>
-
     <?php $nav->setNav(); ?>
-    <div class="container view d-flex justify-content-center align-items-center px-4 py-4">
-        <div style="color: white;">username: <?php echo $account->username; ?></div>
-        <br>
-        <div style="color: white;">OPEN GAMES:</div>
-        <br>
+
+    <div class="container view px-4 py-4">
         <?php
-
-        $acc = new Account();
-        $acc->getAccountByID($account->id);
-        $games = $acc->fetchOpenInvites()->gameInvites;
-
-        foreach ($games as $game) {
-            echo "<div style='color: white;'>$game->topic</div><br>";
+        if (!$_SESSION['LOGGEDIN']) {
+            include_once "../components/create_account_box.php";
+        } else {
+            include_once "../components/play_box.php";
+            include_once "../components/invite_box.php";
         }
-
         ?>
     </div>
 
+    <?php
+    if (isset($_SESSION['LASTERROR']) && sizeof($_SESSION['LASTERROR']) > 0)
+        include_once "../components/last_error.php";
+    ?>
+
     <?php include_once "../assets/php/planningpoker.js.php"; ?>
+    <?php include_once "../components/profile.php"; ?>
 </body>
 
 </html>

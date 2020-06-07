@@ -27,6 +27,7 @@
         padding: 10px;
         border-left: 1px solid $pBorder;
         border-right: 1px solid $pBorder;
+        color: darken($pColor, 30%);
     }
 
     & .main-box-footer {

@@ -23,37 +23,34 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 100%;
+    margin-left: auto;
+
+    & ._navbar-icon {
+        height: 40px;
+        padding-top: 2px;
+    }
 }
 
 @media (min-width: 0px) and (max-width: 991.98px) {
     ._navbar-right {
-        justify-content: flex-start;
-    }
-}
-
-._navbar-icons {
-    padding: 0 10px 0 10px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-._navbar-icon {
-    width: 36px;
-    height: 36px;
-
-    & a {
         display: flex;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        ._navbar-icon {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
     }
 }
 
 ._navbar-profile {
     padding-left: 15px;
     border-left: 1px solid $sBorder;
+
+    &.show ._navbar-profile-toggler {
+        color: $pColor;
+    }
 
     & ._navbar-profile-toggler {
         position: relative;

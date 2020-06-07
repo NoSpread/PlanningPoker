@@ -12,7 +12,7 @@
 
         &:hover {
             cursor: pointer;
-            & + ._label {
+            & ~ ._label {
                 color: $pColor;
             }
 
@@ -47,6 +47,7 @@
         padding-left: 5px;
         color: darken($pColor, 30%);
         transition: 0.3s ease;
+
         &:hover {
             cursor: default;
             color: $pColor;
