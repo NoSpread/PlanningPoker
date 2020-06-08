@@ -14,6 +14,7 @@ if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN'] && isset($_POST["playe
 $players = explode(",", $_POST["players"]);
 $players = preg_replace('/[^a-zA-Z0-9\u00c4-\u00df\u00e4-\u00fc]/', "", $players);
 
+// players to invite
 $i = 0;
 foreach($players as $player) {
     if ($i >= 3) break;
@@ -26,6 +27,7 @@ foreach($players as $player) {
     $i++;
 }
 
+// invite to game
 try {
     $game = new Game();
     foreach($players as $player) {

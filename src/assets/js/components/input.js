@@ -6,6 +6,12 @@ var methodIcons = {
     warning: 'mdi-alert-outline'
 };
 
+/**
+ * Inputinfo Styler
+ * @param {String} id 
+ * @param {String} method 
+ * @param {String} message 
+ */
 function addAfter(id, method, message) {
     if (
         methods.filter((x) => {
@@ -32,6 +38,10 @@ function addAfter(id, method, message) {
     return true;
 }
 
+/**
+ * Deletes inputinfo styling
+ * @param {String} id 
+ */
 function deleteAfter(id) {
     if ($(`#${id} + ._input-after`).length == 0) {
         console.error(
@@ -44,6 +54,12 @@ function deleteAfter(id) {
     return true;
 }
 
+/**
+ * Changes method (color) and message
+ * @param {String} id 
+ * @param {String} newMessage 
+ * @param {String} newMethod 
+ */
 function changeAfter(id, newMessage, newMethod = '') {
     if (id.length < 1) {
         console.error(`Input with id "${id}" doesn't exist.`);

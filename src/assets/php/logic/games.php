@@ -14,19 +14,15 @@ if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN']) {
 
 try {
     $acc = new Account();
-    //$acc->getAccountByID($account->id);
     $acc->fetchOwnGames($account->id);
     $acc->fetchOpenInvites($account->id);
-
-    //topic
-    //inviter
-    //id
     
     $data = [
         "owngames" => [],
         "invitedgames" => []
     ];
 
+    // own games
     $game = new Game();
     foreach($acc->games as $gameid) {
         $game->load($gameid);
@@ -36,6 +32,7 @@ try {
         ]);
     }
 
+    // games invited to
     foreach($acc->gameInvites as $gameid) {
         $game->load($gameid);
         array_push($data["invitedgames"], [

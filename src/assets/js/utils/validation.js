@@ -7,6 +7,10 @@ var letters = /[a-zA-Z]/;
 var digits = /\d+/;
 var specialCharacters = /[`!@§$#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
+/**
+ * Username validation
+ * @param {String} username 
+ */
 function usernameCheck(username) {
     for (let i = 0; i < username.length; i++) {
         if (!usernameCharacters.includes(username.charAt(i)))
@@ -20,10 +24,18 @@ function usernameCheck(username) {
     return true;
 }
 
+/**
+ * Email validation
+ * @param {String} email 
+ */
 function emailCheck(email) {
     return /.+@.+\..+/.test(email) || 'Requirements: E-Mail must be valid';
 }
 
+/**
+ * Password validation
+ * @param {String} password 
+ */
 function passwordCheck(password) {
     for (let i = 0; i < password.length; i++) {
         if (!passwordCharacters.includes(password.charAt(i)))
@@ -44,11 +56,21 @@ function passwordCheck(password) {
     return true;
 }
 
+/**
+ * Checks if passwords match
+ * @param {String} password_1 
+ * @param {String} password_2 
+ */
 function passwordCompare(password_1, password_2) {
     if (password_2.length < 1) return 'Requirements: Passwords must match';
     return password_1 === password_2 || 'Requirements: Passwords must match';
 }
 
+/**
+ * Toggles button if not all requirement are met
+ * @param {String} id 
+ * @param {Array} args 
+ */
 function handleSubmit(id, args) {
     var checksum = 0;
 

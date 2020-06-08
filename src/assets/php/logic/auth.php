@@ -8,6 +8,7 @@ if (isset($_SESSION['USER'])) {
     $_SESSION["LOGGEDIN"] = true;
 }
 
+// remember me option activated (cookie is set)
 if (isset($_COOKIE["remember"]) && !$_SESSION["LOGGEDIN"]) {
     $selector = substr($_COOKIE["remember"], 0, 12);
     $validator = substr($_COOKIE["remember"], 12);
@@ -19,7 +20,7 @@ if (isset($_COOKIE["remember"]) && !$_SESSION["LOGGEDIN"]) {
         $_SESSION["LOGGEDIN"] = true;
     } else {
         unset($_COOKIE['remember']); 
-        setcookie('remember', null, -1, '/'); 
+        setcookie('remember', null, -1, '/'); // cookie available in the wohle domain
     }
 }
 

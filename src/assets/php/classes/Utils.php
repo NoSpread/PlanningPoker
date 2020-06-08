@@ -65,6 +65,12 @@ class Utils
         }
     }
 
+    /**
+     * generates token
+     * @access public
+     * @param int $length
+     * @return object
+     */
     public static function generateToken($length = 20)
     {
         return bin2hex(random_bytes($length));

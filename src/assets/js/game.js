@@ -61,6 +61,11 @@ $(gameSettingsNav)
         $('#gameSettings').modal('show');
     });
 
+/**
+ * Player selects cards
+ * @param {String} card
+ * @param {Number} id
+ */
 function chooseCard(card, id) {
     var value;
 
@@ -88,12 +93,20 @@ $('#playersMobile').keyup(function () {
     else $('#submitMobile').prop('disabled', false);
 });
 
+/**
+ * Displays gamestats
+ * @param {String} stats 
+ */
 function setGameSettings(stats) {
     for (const key in stats) {
         $(`#${key}-value`).text(stats[key]);
     }
 }
 
+/**
+ * Update playernames if the join
+ * @param {Array} players 
+ */
 function setPlayerNames(players) {
     for (let i = 0; i < players.length; i++) {
         $(`#user-${i + 1} > div`).html(players[i]);

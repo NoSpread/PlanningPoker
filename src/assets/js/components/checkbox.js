@@ -1,3 +1,6 @@
+/**
+ * Grab all checkboxes on a page and create an invisible input for fancy styling
+ */
 function collectCheckboxes() {
     const boxes = $('._box');
     for (let i = 0; i < boxes.length; i++) {
@@ -13,6 +16,10 @@ function collectCheckboxes() {
     }
 }
 
+/**
+ * Toogles invisible checkbox to the same state as fancy checkbox
+ * @param {String} id 
+ */
 function setChecked(id) {
     if ($(`#${id}`).hasClass('_checkbox-active')) {
         $(`#${id}`).removeClass('_checkbox-active');

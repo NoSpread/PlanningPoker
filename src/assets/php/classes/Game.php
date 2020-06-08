@@ -60,8 +60,6 @@ class Game
     /**
      * constructor of the game class
      * @access public
-     * @param string $topic goal whose effort is to be estimated
-     * @param array $players
      * @return void
      */
     public function __construct()//string $topic = "")//, array $players = [])
@@ -275,6 +273,7 @@ class Game
 
         $p_cards = [];
         $sum = 0;
+        $noPlayCards = 0;
         foreach($playedCards as $entry) {
             array_push($cards["user"], [
                 "account" => $entry["UserID"],
@@ -284,11 +283,13 @@ class Game
             if ($entry["CardID"] <= 100) {
                 array_push($p_cards, $entry["CardID"]);
                 $sum += $entry["CardID"];
+            } else {
+                $noPlayCards++;
             }
         }
 
         $cards["stats"] = [
-            "mean" => $sum / sizeof($cards["user"]),
+            "mean" => $sum / (sizeof($cards["user"]) - $noPlayCards),
             "max" => max($p_cards),
             "min" => min($p_cards)
         ];
@@ -313,6 +314,13 @@ class Game
         return $this;
     }
 
+    /**
+     * join a game
+     * @access public
+     * @param Account $account
+     * @param integer $gameID
+     * @return Game $this
+     */
     public function join(Account &$account, int $gameID = null) 
     {
         $this->setDefault(["id"], $gameID);

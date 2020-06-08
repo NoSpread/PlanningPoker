@@ -1,3 +1,8 @@
+/**
+ * Push update to server if client selected a card
+ * @param {Number} cardid 
+ * @param {Number} gameid 
+ */
 function pickCard(cardid, gameid) {
     return new Promise((resolve, reject) => {
         $.post(
@@ -10,6 +15,10 @@ function pickCard(cardid, gameid) {
     });
 }
 
+/**
+ * Selects all gamedata from the server to be displayed on the game page
+ * @param {Numver} gameid 
+ */
 function getGameData(gameid) {
     return new Promise((resolve, reject) => {
         $.post(
@@ -22,6 +31,10 @@ function getGameData(gameid) {
     });
 }
 
+/**
+ * Sets enddate in DB
+ * @param {Number} gameid 
+ */
 function closeGame(gameid) {
     return new Promise((resolve, reject) => {
         $.post(
@@ -34,6 +47,11 @@ function closeGame(gameid) {
     });
 }
 
+/**
+ * Invites one or multiple players to a game
+ * @param {Number} gameid 
+ * @param {String} players 
+ */
 function inviteGame(gameid, players) {
     return new Promise((resolve, reject) => {
         $.post(
@@ -46,6 +64,10 @@ function inviteGame(gameid, players) {
     });
 }
 
+/**
+ * Collects all cards from DB
+ * @param {Number} gameid 
+ */
 function getCards(gameid) {
     return new Promise((resolve, reject) => {
         $.post(

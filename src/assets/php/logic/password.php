@@ -24,20 +24,20 @@ if ($account->checkPassword($_GET["currPassword"])) {
             $acc->update($newData, $_GET["currPassword"], $account->id);
             $acc->clearSession($account->id);
         } else {
-            // Missing passowrd req.
+            // not all password requirements accomplished
             $_SESSION["LASTERROR"][] = "Not all password requirements are satisfied";
         }
     } else {
         $_SESSION["LASTERROR"][] = "The passwords you entered are not the same";
-        // passwords not the same
+        // passwords do not match
     }
 } else {
     $_SESSION["LASTERROR"][] = "The password you entered is wrong";
-    // worng opassword
+    // wrong password
 }
 
 if ($_SESSION["LASTERROR"] != []) {
     Utils::redirect("../../../pages/" . htmlspecialchars($_GET["ref"]));
 }
 
-Utils::redirect("../../../pages/logout");
+Utils::redirect("../../../pages/logout.php");

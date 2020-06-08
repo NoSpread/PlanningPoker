@@ -12,6 +12,7 @@ if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN']) {
     die;
 } 
 
+// join a game
 try {
     $game = new Game();
     $acc = new Account();

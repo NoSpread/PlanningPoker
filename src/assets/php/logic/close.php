@@ -11,6 +11,8 @@ if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN'] && isset($_POST["gamei
     echo 0;
     die;
 } 
+
+// close a game (only possible for own games)
 try {
     $game = new Game();
     $game->load($_POST["gameid"]);

@@ -156,7 +156,6 @@ class Account
      * account login if userdata is correct
      * @access public
      * @param  string $password
-     * @param  string $userOrEmail
      * @param  bool $remember_me
      * @throws Exception wrong credentials
      * @return bool login successful
@@ -213,7 +212,6 @@ class Account
             return true;
         } else {
             // wrong credentials
-            //session_destroy();
             throw new Exception("Username or password wrong");
         }
     }
@@ -235,7 +233,7 @@ class Account
      * @param string $password
      * @param integer $userID
      * @throws Exception unser entry update failed
-     * @return bool|Account $this
+     * @return Account $this
      */
     public function update(array $changed,  string $password, int $userID = null)
     {
@@ -345,6 +343,13 @@ class Account
         throw new Exception("ID not in database");
     }
 
+    /**
+     * gets account by selector
+     * @access public
+     * @param mixed $selector
+     * @param mixed $validator
+     * @return bool|Account $this->getAccountByID($auth["userid"])
+     */
     public function getAccountBySelector($selector, $validator)
     {
         $this->db->setTrace (true);
@@ -394,6 +399,13 @@ class Account
         return $this;
     }
 
+    /**
+     * checks if the password fullfills the sercurity requirements
+     * @access public
+     * @param mixed $pwd
+     * @param mixed $errors
+     * @return void
+     */
     public static function checkPasswordRequirements($pwd, &$errors)
     {
         if (strlen($pwd) < 8) {
@@ -413,6 +425,13 @@ class Account
         }
     }
 
+    /**
+     * checks if the username fullfills the requirements
+     * @access public
+     * @param mixed $username
+     * @param mixed $errors
+     * @return void
+     */
     public static function checkUsernameRequirements($username, &$errors)
     {
         if (strlen($username) > 20) {
@@ -426,6 +445,12 @@ class Account
         }
     }
 
+    /**
+     * fetches own games
+     * @access public
+     * @param integer $userID
+     * @return Account $this
+     */
     public function fetchOwnGames(int $userID = null)
     {
         $this->setDefault(["id"], $userID);
@@ -443,6 +468,12 @@ class Account
         return $this;
     }
 
+    /**
+     * fetches open invites
+     * @access public
+     * @param integer $userID
+     * @return Account $this
+     */
     public function fetchOpenInvites(int $userID = null)
     {
         $this->setDefault(["id"], $userID);
@@ -462,19 +493,26 @@ class Account
         return $this;
     }
 
+    /**
+     * account is a part of game
+     * @access public
+     * @param integer $gameID
+     * @param integer $userID
+     * @return bool account is part/not part
+     */
     public function partOfGame(int $gameID, int $userID = null) 
     {
         $this->setDefault(["id"], $userID);
 
-        $games = $this->db
-                        ->join("games", "id = Invited_GameID", "INNER")
-                        ->where("accepted", 1)
-                        ->where("end_date", NULL, "IS")
-                        ->where("Invited_GameID", $gameID)
-                        ->where("Invited_UserID", $this->id)
-                        ->orWhere("Inviter_UserID", $this->id)
-                        ->groupBy("Invited_GameID")
-                        ->get("invites", null, "Invited_GameID");
+        $this->db
+                ->join("games", "id = Invited_GameID", "INNER")
+                ->where("accepted", 1)
+                ->where("end_date", NULL, "IS")
+                ->where("Invited_GameID", $gameID)
+                ->where("Invited_UserID", $this->id)
+                ->orWhere("Inviter_UserID", $this->id)
+                ->groupBy("Invited_GameID")
+                ->get("invites", null, "Invited_GameID");
         
         if ($this->db->count > 0) {
             return true;
@@ -482,6 +520,12 @@ class Account
         return false;
     }
 
+    /**
+     * session gets cleared
+     * @access public
+     * @param integer $userID
+     * @return void
+     */
     public function clearSession(int $userID = null) {
         $this->setDefault(["id"], $userID);
 

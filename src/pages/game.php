@@ -9,7 +9,7 @@ require_once "../assets/php/classes/HeadBuilder.php";
 require_once "../assets/php/classes/Utils.php";
 
 if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN']) $account = unserialize($_SESSION['USER']);
-if (!isset($_GET['id'])) Utils::redirect("index");
+if (!isset($_GET['id'])) Utils::redirect("index.php");
 
 $acc = new Account();
 //$acc->getAccountByID($account->id);
@@ -21,7 +21,7 @@ $game->load($_GET['id']);
 
 if (!$acc->partOfGame($game->id, $account->id)) {
     $_SESSION['LASTERROR'][] = "You are not part of this game!";
-    Utils::redirect("index");
+    Utils::redirect("index.php");
 }
 
 function getUserIndex($game, $user)
@@ -550,7 +550,7 @@ $nav = new NavBuilder($navArr);
                 })
         }
         refreshCards(true);
-        setInterval(refreshCards, 2000)
+        setInterval(refreshCards, 8000)
     </script>
 </body>
 

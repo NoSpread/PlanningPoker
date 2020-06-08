@@ -32,14 +32,14 @@ try {
     ];
 
     foreach($game->players as $player) {
-        array_push($output["players"], $player->username);
+        array_push($output["players"], $player->username); // fill players-array with players
     }
     
     foreach($cardData["user"] as $user) {
         array_push($output["userdata"], [
             "userid" => $user["account"],
             "card" => $user["card"],
-            "index" => getUserIndex($game, $user["account"])
+            "index" => getUserIndex($game, $user["account"]) // fill userdata-array with userid, card and userindex
         ]);
     }
 
@@ -57,6 +57,12 @@ try {
 die;
 
 
+/**
+ * get user-index
+ * @param  mixed $game
+ * @param  mixed $user
+ * @return $user_client_id
+ */
 function getUserIndex($game, $user)
 {
     $user_client_id = 0;

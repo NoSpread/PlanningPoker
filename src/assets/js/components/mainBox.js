@@ -8,6 +8,9 @@ var mainBoxes = [
 	*/
 ];
 
+/**
+ * Collects all MainBoxes for internal functionallity
+ */
 function collectBoxes() {
     const boxes = $('.main-box');
     for (let i = 0; i < boxes.length; i++) {
@@ -34,6 +37,10 @@ function collectBoxes() {
     return true;
 }
 
+/**
+ * Internal function, checks if box exsits
+ * @param {String} id 
+ */
 function filterBoxes(id) {
     return new Promise((resolve, reject) => {
         const boxes = mainBoxes.filter((x) => $.inArray(x.id, id) != -1);
@@ -42,6 +49,11 @@ function filterBoxes(id) {
     });
 }
 
+/**
+ * Open or closes MainBoxes
+ * @param {String} id 
+ * @param {String} state 
+ */
 async function setState(id, state) {
     const boxes = await filterBoxes(id);
     boxes.forEach((x) => {
@@ -54,6 +66,10 @@ async function setState(id, state) {
     return true;
 }
 
+/**
+ * Closes or opens all boxes
+ * @param {Array} boxes 
+ */
 function transformBoxes(boxes) {
     boxes.forEach((x) => {
         if (x.state) {

@@ -2,7 +2,6 @@
 
 require_once "../classes/Game.php";
 require_once "../classes/Account.php";
-//require_once "auth.php";
 
 session_start();
 
@@ -13,6 +12,7 @@ if (isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN'] && isset($_POST["gamei
     die;
 } 
 
+// information about requested (POST) game
 try {
     $game = new Game();
     $game->load($_POST["gameid"]);
@@ -24,6 +24,7 @@ try {
         "players" => []
     ];
     
+    // players of the game
     foreach ($game->players as $player) {
         array_push($data["players"], [
             "id" => $player->id,

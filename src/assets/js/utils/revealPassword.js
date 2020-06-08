@@ -1,3 +1,7 @@
+/**
+ * Toggles show password when clicked on "eye" icon
+ * @param {String} id 
+ */
 function revealPassword(id) {
     if ($(`#${id}`).hasClass('mdi-eye-outline')) {
         $(`#${id}`)

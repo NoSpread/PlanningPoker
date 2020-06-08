@@ -7,7 +7,6 @@
 
 require_once "../classes/Game.php";
 require_once "../classes/Account.php";
-//require_once "auth.php";
 
 session_start();
 
