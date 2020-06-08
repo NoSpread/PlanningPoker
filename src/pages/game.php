@@ -550,7 +550,7 @@ $nav = new NavBuilder($navArr);
                 })
         }
         refreshCards(true);
-        setInterval(refreshCards, 8000)
+        setInterval(refreshCards, 2000)
     </script>
 </body>
 
